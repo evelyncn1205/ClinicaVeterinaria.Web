@@ -54,7 +54,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ClientName,AnimalName,CellPhone,Date,Time,Doctor,ConsultationType,Note")] Consulta consulta)
+        public async Task<IActionResult> Create(Consulta consulta)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ClientName,AnimalName,CellPhone,Date,Time,Doctor,ConsultationType,Note")] Consulta consulta)
+        public async Task<IActionResult> Edit(int id, Consulta consulta)
         {
             if (id != consulta.Id)
             {

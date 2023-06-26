@@ -8,9 +8,11 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string Name { get; set; }
 
         [Required]
+        [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string LastName { get; set; }
 
         [Required]
@@ -25,6 +27,10 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public string CellPhone { get; set; }
 
         [Required]
+        public string Email { get; set; }
+
+        [Required]
+        [MaxLength(100, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string Address { get; set; }
 
         [Required]

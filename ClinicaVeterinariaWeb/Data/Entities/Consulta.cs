@@ -10,10 +10,12 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
         [Required]
         [Display(Name = "Client Name")]
+        [MaxLength(100, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string ClientName { get; set; }
 
         [Required]
         [Display(Name = "Animal Name")]
+        [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string AnimalName { get; set; }
 
         [Required]
@@ -35,6 +37,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public string ConsultationType { get; set; }
 
         [Required]
+        [MaxLength(250, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string Note { get; set; }
         
     }

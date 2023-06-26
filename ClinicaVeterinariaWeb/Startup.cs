@@ -30,6 +30,7 @@ namespace ClinicaVeterinariaWeb
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddTransient<SeedDb>();
 
             services.AddControllersWithViews();
         }
@@ -53,7 +54,7 @@ namespace ClinicaVeterinariaWeb
             app.UseRouting();
 
             app.UseAuthorization();
-
+              
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

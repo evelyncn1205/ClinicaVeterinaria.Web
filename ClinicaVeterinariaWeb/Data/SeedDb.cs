@@ -48,9 +48,9 @@ namespace ClinicaVeterinariaWeb.Data
 
             if (!_context.Consulta.Any())
             {
-                AddConsulta("Carlos Alberto", "Chuchu", DateTime.Parse("15/07/20236"), TimeSpan.Parse("10:00"), "Margarida", "Rotina","cão recem operado");
-                AddConsulta("Maria Silva", "Fofinho", DateTime.Parse("28/07/20236"), TimeSpan.Parse("15:00"), "André", "Vacina","papagaio teve a asa partida");
-                AddConsulta("Maria Silva", "Zorba", DateTime.Parse("31/07/20236"), TimeSpan.Parse("9:30"), "Margarida", "Rotina","avaliação");
+                AddConsulta("Carlos Alberto", "Chuchu", DateTime.Parse("15-07-2023"), TimeSpan.Parse("10:00"), "Margarida", "Rotina","cão recem operado");
+                AddConsulta("Maria Silva", "Fofinho", DateTime.Parse("28-07-2023"), TimeSpan.Parse("15:00"), "André", "Vacina","papagaio teve a asa partida");
+                AddConsulta("Maria Silva", "Zorba", DateTime.Parse("31-07-2023"), TimeSpan.Parse("9:30"), "Margarida", "Rotina","avaliação");
 
                 await _context.SaveChangesAsync();
             }

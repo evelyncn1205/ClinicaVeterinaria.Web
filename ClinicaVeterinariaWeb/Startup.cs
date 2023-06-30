@@ -32,6 +32,10 @@ namespace ClinicaVeterinariaWeb
 
             services.AddTransient<SeedDb>();
 
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IConsultaRepository, ConsultaRepositorycs>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
             services.AddControllersWithViews();
         }
 

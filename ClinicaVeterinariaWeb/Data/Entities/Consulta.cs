@@ -4,7 +4,7 @@ using System.Timers;
 
 namespace ClinicaVeterinariaWeb.Data.Entities
 {
-    public class Consulta
+    public class Consulta : IEntity
     {
         public int Id { get; set; }
 

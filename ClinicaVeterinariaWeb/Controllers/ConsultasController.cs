@@ -12,17 +12,17 @@ namespace ClinicaVeterinariaWeb.Controllers
 {
     public class ConsultasController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IConsultaRepository _consultaRepository;
 
-        public ConsultasController(DataContext context)
+        public ConsultasController(IConsultaRepository consultaRepository)
         {
-            _context = context;
+            _consultaRepository = consultaRepository;   
         }
 
         // GET: Consultas
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Consulta.ToListAsync());
+            return View(_consultaRepository.GetAll().OrderBy(e => e.Date));
         }
 
         // GET: Consultas/Details/5
@@ -33,8 +33,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var consulta = await _context.Consulta
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var consulta = await _consultaRepository.GetByIdAsync(id.Value);
             if (consulta == null)
             {
                 return NotFound();
@@ -58,8 +57,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(consulta);
-                await _context.SaveChangesAsync();
+                await _consultaRepository.CreateAsync(consulta);
                 return RedirectToAction(nameof(Index));
             }
             return View(consulta);
@@ -73,7 +71,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var consulta = await _context.Consulta.FindAsync(id);
+            var consulta = await _consultaRepository.GetByIdAsync(id.Value);
             if (consulta == null)
             {
                 return NotFound();
@@ -97,12 +95,11 @@ namespace ClinicaVeterinariaWeb.Controllers
             {
                 try
                 {
-                    _context.Update(consulta);
-                    await _context.SaveChangesAsync();
+                  await _consultaRepository.UpdateAsync(consulta);  
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ConsultaExists(consulta.Id))
+                    if (! await _consultaRepository.ExistAsync(consulta.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +121,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var consulta = await _context.Consulta
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var consulta = await _consultaRepository.GetByIdAsync(id.Value);
             if (consulta == null)
             {
                 return NotFound();
@@ -139,15 +135,11 @@ namespace ClinicaVeterinariaWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var consulta = await _context.Consulta.FindAsync(id);
-            _context.Consulta.Remove(consulta);
-            await _context.SaveChangesAsync();
+            var consulta = await _consultaRepository.GetByIdAsync(id);
+            await _consultaRepository.DeleteAsync(consulta);    
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ConsultaExists(int id)
-        {
-            return _context.Consulta.Any(e => e.Id == id);
-        }
+       
     }
 }

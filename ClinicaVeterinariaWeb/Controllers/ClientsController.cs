@@ -7,22 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClinicaVeterinariaWeb.Data;
 using ClinicaVeterinariaWeb.Data.Entities;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace ClinicaVeterinariaWeb.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IClientRepository _clientRepository;
 
-        public ClientsController(DataContext context)
+        public ClientsController(IClientRepository clientRepository)
         {
-            _context = context;
+            _clientRepository = clientRepository;
         }
 
         // GET: Clients
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Clients.ToListAsync());
+            return View(_clientRepository.GetAll().OrderBy(e => e.ClientName));
         }
 
         // GET: Clients/Details/5
@@ -33,8 +34,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client = await _clientRepository.GetByIdAsync(id.Value);
             if (client == null)
             {
                 return NotFound();
@@ -58,8 +58,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
+               await _clientRepository.CreateAsync(client);
                 return RedirectToAction(nameof(Index));
             }
             return View(client);
@@ -73,7 +72,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients.FindAsync(id);
+            var client = await _clientRepository.GetByIdAsync(id.Value);
             if (client == null)
             {
                 return NotFound();
@@ -97,12 +96,11 @@ namespace ClinicaVeterinariaWeb.Controllers
             {
                 try
                 {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
+                    await _clientRepository.UpdateAsync(client);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientExists(client.Id))
+                    if (! await _clientRepository.ExistAsync(client.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +122,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client = await _clientRepository.GetByIdAsync(id.Value);
             if (client == null)
             {
                 return NotFound();
@@ -139,15 +136,11 @@ namespace ClinicaVeterinariaWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
-            _context.Clients.Remove(client);
-            await _context.SaveChangesAsync();
+            var client = await _clientRepository.GetByIdAsync(id);
+            await _clientRepository.DeleteAsync(client);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientExists(int id)
-        {
-            return _context.Clients.Any(e => e.Id == id);
-        }
+        
     }
 }

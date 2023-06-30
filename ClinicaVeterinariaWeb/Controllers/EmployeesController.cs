@@ -12,17 +12,17 @@ namespace ClinicaVeterinariaWeb.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public EmployeesController(DataContext context)
+        public EmployeesController(IEmployeeRepository employeeRepository)
         {
-            _context = context;
+           _employeeRepository =  employeeRepository;
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Employees.ToListAsync());
+            return View( _employeeRepository.GetAll().OrderBy(e => e.Name));
         }
 
         // GET: Employees/Details/5
@@ -33,8 +33,8 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var employee = await _employeeRepository.GetByIdAsync(id.Value);
+               
             if (employee == null)
             {
                 return NotFound();
@@ -58,8 +58,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+                await _employeeRepository.CreateAsync(employee);
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -73,7 +72,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _employeeRepository.GetByIdAsync(id.Value);
             if (employee == null)
             {
                 return NotFound();
@@ -97,12 +96,11 @@ namespace ClinicaVeterinariaWeb.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+                    await _employeeRepository.UpdateAsync(employee);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.Id))
+                    if (! await _employeeRepository.ExistAsync(employee.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +122,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var employee = await _employeeRepository.GetByIdAsync(id.Value);
             if (employee == null)
             {
                 return NotFound();
@@ -139,15 +136,10 @@ namespace ClinicaVeterinariaWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            var employee = await _employeeRepository.GetByIdAsync(id);
+            await _employeeRepository.DeleteAsync(employee);
             return RedirectToAction(nameof(Index));
         }
-
-        private bool EmployeeExists(int id)
-        {
-            return _context.Employees.Any(e => e.Id == id);
-        }
+               
     }
 }

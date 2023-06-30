@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace ClinicaVeterinariaWeb.Data.Entities
 {
-    public class Employee
+    public class Employee : IEntity
     {
         public int Id { get; set; }
 

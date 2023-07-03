@@ -48,12 +48,12 @@ namespace ClinicaVeterinariaWeb.Data
         public async Task<bool> ExistAsync(int id)
         {
             return await _context.Set<T>().AnyAsync(e => e.Id == id);
-        }        
-             
-              
+        }
+
         private async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
     }
 }

@@ -39,8 +39,8 @@ namespace ClinicaVeterinariaWeb.Data
             if(! _context.Employees.Any())
             {
                 AddEmployees("Margarida", "Campos", "Médica", "margarida@gmail.com", "Rua do Riacho Fundo 80", "5");
-                AddEmployees("André", "Oliveira", "Médico", "margarida@gmail.com", "Rua do Riacho Fundo 80", "1");
-                AddEmployees("Rosa", "Maria", "Recepcionista", "margarida@gmail.com", "Rua do Riacho Fundo 80", "Recepção");
+                AddEmployees("André", "Oliveira", "Médico", "andre@gmail.com", "Rua do Riacho Fundo 80", "1");
+                AddEmployees("Rosa", "Maria", "Recepcionista", "maria@gmail.com", "Rua do Riacho Fundo 80", "Recepção");
 
                 await _context.SaveChangesAsync();
             }
@@ -73,23 +73,23 @@ namespace ClinicaVeterinariaWeb.Data
             });
         }
 
-        private void AddEmployees(string name, string lastName, string role, string address, string room, string email)
+        private void AddEmployees(string name, string lastName, string role, string email, string address, string room)
         {
             _context.Employees.Add(new Employee
             {
-                Name=name,
-                LastName=lastName,
-                Role=role,
-                Address=address,
-                Room=room,
-                Email=email,
+                Name = name,
+                LastName = lastName,
+                Role = role,
+                Email = email,
+                Address = address,
+                Room = room,
                 Document = _random.Next(10000).ToString("D9"),
                 FixedPhone = "2" + _random.Next(10000000, 99999999).ToString(),
                 CellPhone = "9" + _random.Next(10000000, 99999999).ToString(),
             });
         }
 
-        private void AddClient(string name,string animalName, string email,string especie, string address, string breed, string age)
+        private void AddClient(string name, string email, string address, string animalName, string especie, string breed, string age)
         {
             _context.Clients.Add(new Client
             {

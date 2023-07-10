@@ -8,16 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using ClinicaVeterinariaWeb.Data;
 using ClinicaVeterinariaWeb.Data.Entities;
 using Microsoft.CodeAnalysis.CSharp;
+using ClinicaVeterinariaWeb.Helpers;
 
 namespace ClinicaVeterinariaWeb.Controllers
 {
     public class ClientsController : Controller
     {
         private readonly IClientRepository _clientRepository;
+        private readonly IUserHelper _userHelper;
 
-        public ClientsController(IClientRepository clientRepository)
+
+        public ClientsController(IClientRepository clientRepository,
+            IUserHelper userHelper)
         {
             _clientRepository = clientRepository;
+            _userHelper = userHelper;
         }
 
         // GET: Clients
@@ -58,8 +63,9 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+               client.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                await _clientRepository.CreateAsync(client);
-                return RedirectToAction(nameof(Index));
+               return RedirectToAction(nameof(Index));
             }
             return View(client);
         }
@@ -96,6 +102,7 @@ namespace ClinicaVeterinariaWeb.Controllers
             {
                 try
                 {
+                    client.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                     await _clientRepository.UpdateAsync(client);
                 }
                 catch (DbUpdateConcurrencyException)

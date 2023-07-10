@@ -47,9 +47,10 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [MaxLength(250, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string Note { get; set; }
 
-
-        
+                
         [Display(Name = "Image")]
         public string AnimalImageUrl { get; set; }
+
+        public User User { get; set; }
     }
 }

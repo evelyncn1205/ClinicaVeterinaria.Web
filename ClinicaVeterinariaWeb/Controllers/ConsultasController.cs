@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClinicaVeterinariaWeb.Data;
 using ClinicaVeterinariaWeb.Data.Entities;
+using ClinicaVeterinariaWeb.Helpers;
 
 namespace ClinicaVeterinariaWeb.Controllers
 {
     public class ConsultasController : Controller
     {
         private readonly IConsultaRepository _consultaRepository;
+        private readonly IUserHelper _userHelper;
 
-        public ConsultasController(IConsultaRepository consultaRepository)
+        public ConsultasController(IConsultaRepository consultaRepository,
+            IUserHelper userHelper)
         {
             _consultaRepository = consultaRepository;   
+            _userHelper = userHelper;
         }
 
         // GET: Consultas
@@ -57,6 +61,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                consulta.User= await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                 await _consultaRepository.CreateAsync(consulta);
                 return RedirectToAction(nameof(Index));
             }
@@ -95,7 +100,8 @@ namespace ClinicaVeterinariaWeb.Controllers
             {
                 try
                 {
-                  await _consultaRepository.UpdateAsync(consulta);  
+                    consulta.User= await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
+                    await _consultaRepository.UpdateAsync(consulta);  
                 }
                 catch (DbUpdateConcurrencyException)
                 {

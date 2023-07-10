@@ -1,10 +1,11 @@
 ﻿using ClinicaVeterinariaWeb.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace ClinicaVeterinariaWeb.Data
 {
-    public class DataContext  : DbContext
+    public class DataContext  : IdentityDbContext<User>
     {
         public DbSet<Client> Clients { get; set; }
         public DbSet<Employee> Employees { get; set; }

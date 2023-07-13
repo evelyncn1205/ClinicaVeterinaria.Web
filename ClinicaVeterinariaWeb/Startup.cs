@@ -51,6 +51,9 @@ namespace ClinicaVeterinariaWeb
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IConsultaRepository, ConsultaRepositorycs>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();  
+            
             
 
             services.AddControllersWithViews();

@@ -17,12 +17,18 @@ namespace ClinicaVeterinariaWeb.Controllers
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
         public EmployeesController(IEmployeeRepository employeeRepository,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper)
         {
            _employeeRepository =  employeeRepository;
             _userHelper = userHelper;
+            _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Employees
@@ -67,23 +73,10 @@ namespace ClinicaVeterinariaWeb.Controllers
                 var path = string.Empty;
                 if (model.ImageFile != null && model.ImageFile.Length >0)
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
-
-                    path = Path.Combine(
-                        Directory.GetCurrentDirectory(),
-                        "wwwroot\\image\\employee",
-                        file);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await model.ImageFile.CopyToAsync(stream);
-                    }
-
-                    path = $"~/image/employee/{file}";
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "employee");
                 }
 
-                var employee = this.ToEmployee(model, path);
+                var employee = _converterHelper.ToEmployee(model, path, true);
 
                 employee.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                 await _employeeRepository.CreateAsync(employee);
@@ -92,25 +85,7 @@ namespace ClinicaVeterinariaWeb.Controllers
             return View(model);
         }
 
-        private Employee ToEmployee(EmployeeViewModel model, string path)
-        {
-            return new Employee
-            {
-                Id=model.Id,
-                ImageUrl = path,
-                Name=model.Name,
-                LastName=model.LastName,
-                Address=model.Address,
-                Email=model.Email,
-                CellPhone=model.CellPhone,
-                FixedPhone=model.FixedPhone,
-                Role=model.Role,
-                Room=model.Room,
-                Document=model.Document,
-                User=model.User,
-
-            };
-        }
+        
 
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -126,28 +101,11 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var model = this.ToEmployeeViewModel(employee);
+            var model = _converterHelper.ToEmployeeViewModel(employee);
             return View(model);
         }
 
-        private object ToEmployeeViewModel(Employee employee)
-        {
-            return new EmployeeViewModel
-            {
-                Id=employee.Id,
-                ImageUrl = employee.ImageUrl,
-                Name=employee.Name,
-                LastName=employee.LastName,
-                Address=employee.Address,
-                Email=employee.Email,
-                CellPhone=employee.CellPhone,
-                FixedPhone=employee.FixedPhone,
-                Role=employee.Role,
-                Room=employee.Room,
-                Document=employee.Document,
-                User=employee.User,
-            };
-        }
+        
 
         // POST: Employees/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -164,23 +122,11 @@ namespace ClinicaVeterinariaWeb.Controllers
 
                     if(model.ImageFile != null && model.ImageFile.Length >0)
                     {
-                        var guid = Guid.NewGuid().ToString();
-                        var file = $"{guid}.jpg";
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "employee");
 
-                        path = Path.Combine(
-                            Directory.GetCurrentDirectory(),
-                            "wwwroot\\image\\employee",
-                            file);
-
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await model.ImageFile.CopyToAsync(stream);
-                        }
-
-                        path = $"~/image/employee/{file}";
                     }
 
-                    var employee= this.ToEmployee(model, path);
+                    var employee= _converterHelper.ToEmployee(model, path,false);
                     employee.User= await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                     await _employeeRepository.UpdateAsync(employee);
                 }

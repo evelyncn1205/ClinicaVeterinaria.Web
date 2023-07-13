@@ -18,13 +18,18 @@ namespace ClinicaVeterinariaWeb.Controllers
     {
         private readonly IClientRepository _clientRepository;
         private readonly IUserHelper _userHelper;
-
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
         public ClientsController(IClientRepository clientRepository,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper)
         {
             _clientRepository = clientRepository;
             _userHelper = userHelper;
+            _imageHelper=imageHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Clients
@@ -66,24 +71,14 @@ namespace ClinicaVeterinariaWeb.Controllers
             if (ModelState.IsValid)
             {
                 var path = string.Empty;
+
                 if(model.ImageFile != null && model.ImageFile.Length >0)
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
-
-                    path = Path.Combine(
-                        Directory.GetCurrentDirectory(),
-                        "wwwroot\\image\\client",
-                       file);
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await model.ImageFile.CopyToAsync(stream);
-                    }
-
-                    path = $"~/image/client/{file}";
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "client");
                 }
 
-                var client = this.ToClient(model ,path);
+                
+                var client= _converterHelper.ToClient(model, path, true);
 
                client.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                await _clientRepository.CreateAsync(client);
@@ -92,28 +87,7 @@ namespace ClinicaVeterinariaWeb.Controllers
             return View(model);
         }
 
-        private Client ToClient(ClientViewModel model, string path)
-        {
-            return new Client
-            {
-                Id = model.Id,
-                AnimalImageUrl = path,
-                ClientName = model.ClientName,
-                Document=model.Document,
-                AnimalAge= model.AnimalAge,
-                AnimalName = model.AnimalName,
-                CellPhone = model.CellPhone,
-                FixedPhone = model.FixedPhone,
-                Email = model.Email,
-                Address = model.Address,
-                Species = model.Species,
-                Breed = model.Breed,
-                Note = model.Note,
-                User = model.User,
-            };
-             
-        }
-
+        
         // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -128,30 +102,12 @@ namespace ClinicaVeterinariaWeb.Controllers
                 return NotFound();
             }
 
-            var model = this.ToClientViewModel(client);
+            
+            var model = _converterHelper.ToClientViewModel(client);
             return View(model);
         }
 
-        private ClientViewModel ToClientViewModel(Client client)
-        {
-            return new ClientViewModel
-            {
-                Id = client.Id,
-                AnimalImageUrl = client.AnimalImageUrl,
-                ClientName = client.ClientName,
-                Document=client.Document,
-                AnimalAge= client.AnimalAge,
-                AnimalName = client.AnimalName,
-                CellPhone = client.CellPhone,
-                FixedPhone = client.FixedPhone,
-                Email = client.Email,
-                Address = client.Address,
-                Species = client.Species,
-                Breed = client.Breed,
-                Note = client.Note,
-                User = client.User,
-            };
-        }
+       
 
         // POST: Clients/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -168,23 +124,10 @@ namespace ClinicaVeterinariaWeb.Controllers
                     var path = string.Empty;
                     if (model.ImageFile != null && model.ImageFile.Length >0)
                     {
-                        var guid = Guid.NewGuid().ToString();
-                        var file = $"{guid}.jpg";
-
-                        path = Path.Combine(
-                            Directory.GetCurrentDirectory(),
-                            "wwwroot\\image\\client",
-                           file);
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await model.ImageFile.CopyToAsync(stream);
-                        }
-
-                        path = $"~/image/client/{file}";
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "client");
                     }
 
-                    var client = this.ToClient(model, path);
-
+                    var client = _converterHelper.ToClient(model, path, false);
 
                     client.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                     await _clientRepository.UpdateAsync(client);

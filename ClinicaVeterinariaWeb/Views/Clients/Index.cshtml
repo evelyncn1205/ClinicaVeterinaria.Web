@@ -45,9 +45,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Note)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AnimalImageUrl)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -84,12 +82,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Breed)
             </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.AnimalImageUrl))
+                    {
+                        <img src="@Url.Content(item.AnimalImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%;height:auto;" />
+                    }
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AnimalImageUrl)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace ClinicaVeterinariaWeb.Data
 {
@@ -10,10 +11,13 @@ namespace ClinicaVeterinariaWeb.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Contacto> Contactos { get; set; }
+
+        public DbSet<ClinicaVeterinariaWeb.Data.Entities.Consulta> Consulta { get; set; }
         public DataContext(DbContextOptions<DataContext>options) : base (options)
         {
 
         }
-        public DbSet<ClinicaVeterinariaWeb.Data.Entities.Consulta> Consulta { get; set; }
+        
+        
     }
 }

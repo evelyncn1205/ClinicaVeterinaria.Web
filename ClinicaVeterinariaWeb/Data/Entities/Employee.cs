@@ -44,5 +44,18 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public string ImageUrl { get; set; }
 
         public User User { get; set; }
+
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ImageUrl))
+                {
+                    return null;
+                }
+
+                return $"https://localhost:44309{ImageUrl.Substring(1)}";
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using ClinicaVeterinariaWeb.Data.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace ClinicaVeterinariaWeb.Data
 {
@@ -9,5 +11,11 @@ namespace ClinicaVeterinariaWeb.Data
         {
             _context = context;
         }
+
+        public IQueryable GetAllWithUsers()
+        {
+            return _context.Clients.Include(c => c.User);
+        }
+
     }
 }

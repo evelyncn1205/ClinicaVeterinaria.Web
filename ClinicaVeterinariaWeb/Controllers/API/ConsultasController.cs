@@ -17,7 +17,7 @@ namespace ClinicaVeterinariaWeb.Controllers.API
         [HttpGet]
         public IActionResult GetConsulta()
         {
-            return Ok(_consultaRepository.GetAll());
+            return Ok(_consultaRepository.GetAllWithUsers());
         }
     }
 }

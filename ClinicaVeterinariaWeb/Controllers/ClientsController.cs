@@ -9,6 +9,8 @@ using ClinicaVeterinariaWeb.Data;
 using ClinicaVeterinariaWeb.Data.Entities;
 using Microsoft.CodeAnalysis.CSharp;
 using ClinicaVeterinariaWeb.Helpers;
+using ClinicaVeterinariaWeb.Models;
+using System.IO;
 
 namespace ClinicaVeterinariaWeb.Controllers
 {
@@ -59,15 +61,57 @@ namespace ClinicaVeterinariaWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Client client)
+        public async Task<IActionResult> Create(ClientViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var path = string.Empty;
+                if(model.ImageFile != null && model.ImageFile.Length >0)
+                {
+                    var guid = Guid.NewGuid().ToString();
+                    var file = $"{guid}.jpg";
+
+                    path = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot\\image\\client",
+                       file);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await model.ImageFile.CopyToAsync(stream);
+                    }
+
+                    path = $"~/image/client/{file}";
+                }
+
+                var client = this.ToClient(model ,path);
+
                client.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                await _clientRepository.CreateAsync(client);
                return RedirectToAction(nameof(Index));
             }
-            return View(client);
+            return View(model);
+        }
+
+        private Client ToClient(ClientViewModel model, string path)
+        {
+            return new Client
+            {
+                Id = model.Id,
+                AnimalImageUrl = path,
+                ClientName = model.ClientName,
+                Document=model.Document,
+                AnimalAge= model.AnimalAge,
+                AnimalName = model.AnimalName,
+                CellPhone = model.CellPhone,
+                FixedPhone = model.FixedPhone,
+                Email = model.Email,
+                Address = model.Address,
+                Species = model.Species,
+                Breed = model.Breed,
+                Note = model.Note,
+                User = model.User,
+            };
+             
         }
 
         // GET: Clients/Edit/5
@@ -83,7 +127,30 @@ namespace ClinicaVeterinariaWeb.Controllers
             {
                 return NotFound();
             }
-            return View(client);
+
+            var model = this.ToClientViewModel(client);
+            return View(model);
+        }
+
+        private ClientViewModel ToClientViewModel(Client client)
+        {
+            return new ClientViewModel
+            {
+                Id = client.Id,
+                AnimalImageUrl = client.AnimalImageUrl,
+                ClientName = client.ClientName,
+                Document=client.Document,
+                AnimalAge= client.AnimalAge,
+                AnimalName = client.AnimalName,
+                CellPhone = client.CellPhone,
+                FixedPhone = client.FixedPhone,
+                Email = client.Email,
+                Address = client.Address,
+                Species = client.Species,
+                Breed = client.Breed,
+                Note = client.Note,
+                User = client.User,
+            };
         }
 
         // POST: Clients/Edit/5
@@ -91,23 +158,40 @@ namespace ClinicaVeterinariaWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Client client)
+        public async Task<IActionResult> Edit(ClientViewModel model)
         {
-            if (id != client.Id)
-            {
-                return NotFound();
-            }
-
+            
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var path = string.Empty;
+                    if (model.ImageFile != null && model.ImageFile.Length >0)
+                    {
+                        var guid = Guid.NewGuid().ToString();
+                        var file = $"{guid}.jpg";
+
+                        path = Path.Combine(
+                            Directory.GetCurrentDirectory(),
+                            "wwwroot\\image\\client",
+                           file);
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            await model.ImageFile.CopyToAsync(stream);
+                        }
+
+                        path = $"~/image/client/{file}";
+                    }
+
+                    var client = this.ToClient(model, path);
+
+
                     client.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                     await _clientRepository.UpdateAsync(client);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _clientRepository.ExistAsync(client.Id))
+                    if (! await _clientRepository.ExistAsync(model.Id))
                     {
                         return NotFound();
                     }
@@ -118,7 +202,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(client);
+            return View(model);
         }
 
         // GET: Clients/Delete/5

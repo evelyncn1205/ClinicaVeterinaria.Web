@@ -10,9 +10,11 @@ using ClinicaVeterinariaWeb.Data.Entities;
 using ClinicaVeterinariaWeb.Helpers;
 using System.IO;
 using ClinicaVeterinariaWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClinicaVeterinariaWeb.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;

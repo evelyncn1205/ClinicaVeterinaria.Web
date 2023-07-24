@@ -129,6 +129,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                     }
 
                     var employee= _converterHelper.ToEmployee(model, path,false);
+
                     employee.User= await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                     await _employeeRepository.UpdateAsync(employee);
                 }

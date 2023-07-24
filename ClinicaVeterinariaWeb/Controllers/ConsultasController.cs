@@ -61,7 +61,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                consulta.User= await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
+                consulta.User= await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 await _consultaRepository.CreateAsync(consulta);
                 return RedirectToAction(nameof(Index));
             }
@@ -100,7 +100,7 @@ namespace ClinicaVeterinariaWeb.Controllers
             {
                 try
                 {
-                    consulta.User= await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
+                    consulta.User= await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                     await _consultaRepository.UpdateAsync(consulta);  
                 }
                 catch (DbUpdateConcurrencyException)

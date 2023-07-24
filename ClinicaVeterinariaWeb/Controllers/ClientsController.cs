@@ -80,7 +80,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 
                 var client= _converterHelper.ToClient(model, path, true);
 
-               client.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
+               client.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                await _clientRepository.CreateAsync(client);
                return RedirectToAction(nameof(Index));
             }
@@ -129,7 +129,7 @@ namespace ClinicaVeterinariaWeb.Controllers
 
                     var client = _converterHelper.ToClient(model, path, false);
 
-                    client.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
+                    client.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                     await _clientRepository.UpdateAsync(client);
                 }
                 catch (DbUpdateConcurrencyException)

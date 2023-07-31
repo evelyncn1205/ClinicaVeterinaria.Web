@@ -34,6 +34,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Employees
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View( _employeeRepository.GetAll().OrderBy(e => e.Name));
@@ -58,6 +59,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Employees/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -87,9 +89,10 @@ namespace ClinicaVeterinariaWeb.Controllers
             return View(model);
         }
 
-        
+
 
         // GET: Employees/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -150,6 +153,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Employees/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

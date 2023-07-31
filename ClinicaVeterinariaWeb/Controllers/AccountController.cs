@@ -1,8 +1,12 @@
 ﻿using ClinicaVeterinariaWeb.Data.Entities;
 using ClinicaVeterinariaWeb.Helpers;
 using ClinicaVeterinariaWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,11 +15,18 @@ namespace ClinicaVeterinariaWeb.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
-        public AccountController (IUserHelper userHelper)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
+        public AccountController (IUserHelper userHelper, 
+            RoleManager<IdentityRole> roleManager,
+            UserManager<User> userManager)
         {
             _userHelper = userHelper;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
+       
         public IActionResult Login()
         {
             if(User.Identity.IsAuthenticated)
@@ -51,9 +62,17 @@ namespace ClinicaVeterinariaWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+       
         public IActionResult Register()
         {
-            return View();
+            var model = new RegisternewUserViewModel();
+            model.Roles = new List<SelectListItem>
+            {
+                  new SelectListItem { Text = "Funcionario", Value = "Funcionario" },
+                  new SelectListItem { Text = "Cliente", Value = "Cliente" },
+                  new SelectListItem { Text = "Admin", Value = "Admin" }
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -92,6 +111,12 @@ namespace ClinicaVeterinariaWeb.Controllers
                         return RedirectToAction("Index", "Home");
                     }
 
+                    var applicationRole = await _roleManager.FindByNameAsync(model.Role);
+                    if (applicationRole != null)
+                    {
+                        IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
+                    }
+
                     ModelState.AddModelError(string.Empty, "The user couldn't be logged.");
 
                 }
@@ -101,6 +126,7 @@ namespace ClinicaVeterinariaWeb.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin,Funcionario,Cliente")]
         public async Task<IActionResult> ChangeUser()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);

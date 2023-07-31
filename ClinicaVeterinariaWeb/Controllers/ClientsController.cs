@@ -11,6 +11,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using ClinicaVeterinariaWeb.Helpers;
 using ClinicaVeterinariaWeb.Models;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClinicaVeterinariaWeb.Controllers
 {
@@ -33,6 +34,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Clients
+        [Authorize(Roles = "Funcionario, Admin")]
         public IActionResult Index()
         {
             return View(_clientRepository.GetAll().OrderBy(e => e.ClientName));
@@ -56,6 +58,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Clients/Create
+        [Authorize(Roles = "Funcionario")]
         public IActionResult Create()
         {
             return View();
@@ -87,8 +90,9 @@ namespace ClinicaVeterinariaWeb.Controllers
             return View(model);
         }
 
-        
+
         // GET: Clients/Edit/5
+        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -149,6 +153,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Clients/Delete/5
+        [Authorize(Roles = "Funcionario")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

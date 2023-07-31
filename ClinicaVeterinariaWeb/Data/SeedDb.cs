@@ -29,6 +29,12 @@ namespace ClinicaVeterinariaWeb.Data
         {
             await _context.Database.EnsureCreatedAsync();
 
+            await _userHelper.CheckRoleAsync("Admin");
+            await _userHelper.CheckRoleAsync("Cliente");
+            await _userHelper.CheckRoleAsync("Anonimo");
+            await _userHelper.CheckRoleAsync("Funcionario");
+
+
             var user = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
             if (user == null)
             {
@@ -46,6 +52,17 @@ namespace ClinicaVeterinariaWeb.Data
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
+
+                await _userHelper.AddUserRoleAsync(user, "Admin");
+            }
+
+            var isInRole = await _userHelper.IsUserRoleAsync(user, "Admin");
+            if(!isInRole)
+            {
+                await _userHelper.AddUserRoleAsync(user, "Admin");
+                await _userHelper.AddUserRoleAsync(user, "Cliente");
+                await _userHelper.AddUserRoleAsync(user, "Funcionario");
+                await _userHelper.AddUserRoleAsync(user, "Anonimo");
             }
 
             if (!_context.Clients.Any())

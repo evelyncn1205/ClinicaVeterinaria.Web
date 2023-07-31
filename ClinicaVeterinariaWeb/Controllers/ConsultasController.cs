@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ClinicaVeterinariaWeb.Data;
 using ClinicaVeterinariaWeb.Data.Entities;
 using ClinicaVeterinariaWeb.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ClinicaVeterinariaWeb.Controllers
 {
@@ -24,6 +26,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Consultas
+        [Authorize(Roles = "Funcionario,Cliente")]
         public IActionResult Index()
         {
             return View(_consultaRepository.GetAll().OrderBy(e => e.Date));
@@ -47,6 +50,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Consultas/Create
+        
         public IActionResult Create()
         {
             return View();
@@ -69,6 +73,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Consultas/Edit/5
+       
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

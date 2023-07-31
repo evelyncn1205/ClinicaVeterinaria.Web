@@ -10,15 +10,18 @@ namespace ClinicaVeterinariaWeb.Helpers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-
-        public UserHelper(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public UserHelper(UserManager<User> userManager, 
+            SignInManager<User> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager=userManager;
             _signInManager = signInManager;
+            _roleManager=roleManager;
         }
 
 
-    public async Task<IdentityResult> AddUserAsync(User user, string password)
+        public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
             return await _userManager.CreateAsync(user, password);
         }
@@ -26,12 +29,27 @@ namespace ClinicaVeterinariaWeb.Helpers
         public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
         {
             return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+            
+        }
+
+        public async Task CheckRoleAsync(string roleName)
+        {
+            var roleExist = await _roleManager.RoleExistsAsync(roleName);
+            if(!roleExist)
+            {
+                await _roleManager.CreateAsync(new IdentityRole
+                {
+                    Name=roleName
+                });
+            }
         }
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);
         }
+
+        
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
         {
@@ -50,6 +68,15 @@ namespace ClinicaVeterinariaWeb.Helpers
         public async Task<IdentityResult> UpdateUserAsync(User user)
         {
             return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task AddUserRoleAsync(User user, string roleName)
+        {
+            await _userManager.AddToRoleAsync(user, roleName);
+        }
+        public async Task<bool> IsUserRoleAsync(User user, string roleName)
+        {
+            return await _userManager.IsInRoleAsync(user, roleName);
         }
     }
 }

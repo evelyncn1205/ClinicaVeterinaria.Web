@@ -38,6 +38,7 @@ namespace ClinicaVeterinariaWeb
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequiredLength = 6;
             })
+                .AddDefaultTokenProviders()
                .AddEntityFrameworkStores<DataContext>();
 
             services.AddDbContext<DataContext>(cfg =>
@@ -46,6 +47,7 @@ namespace ClinicaVeterinariaWeb
             });
 
             services.AddTransient<SeedDb>();
+                                      
 
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IClientRepository, ClientRepository>();
@@ -54,7 +56,7 @@ namespace ClinicaVeterinariaWeb
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();  
             
-            
+              
 
             services.AddControllersWithViews();
         }

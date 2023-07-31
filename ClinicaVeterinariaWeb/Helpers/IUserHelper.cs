@@ -17,5 +17,8 @@ namespace ClinicaVeterinariaWeb.Helpers
         Task<IdentityResult> UpdateUserAsync(User user);
 
         Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
+        Task CheckRoleAsync(string roleName);
+        Task AddUserRoleAsync(User user, string roleName);
+        Task <bool> IsUserRoleAsync(User user, string roleName);
     }
 }

@@ -6,11 +6,11 @@ namespace ClinicaVeterinariaWeb.Models
     public class RegisternewUserViewModel
     {
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = "Nome")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(Name = "Apelido")]
         public string LastName { get; set; }
 
         [Required]

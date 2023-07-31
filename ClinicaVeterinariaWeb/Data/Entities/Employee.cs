@@ -9,21 +9,23 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
         [Required]
         [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters length.")]
+        [Display(Name = "Nome")]
         public string Name { get; set; }
 
         [Required]
         [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters length.")]
+        [Display(Name = "Apelido")]
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "Document")]
+        [Display(Name = "Documento")]
         public string Document { get; set; }
 
-        [Display(Name = "Fixed Phone")]
+        [Display(Name = "Telefone Fixo")]
         public string FixedPhone { get; set; }
 
         [Required]
-        [Display(Name = "Cell Phone")]
+        [Display(Name = "Telemóvel")]
         public string CellPhone { get; set; }
 
         [Required]
@@ -31,16 +33,18 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
         [Required]
         [MaxLength(100, ErrorMessage = "The field {0} can contain {1} characters length.")]
+        [Display(Name = "Morada")]
         public string Address { get; set; }
 
         [Required]
+        [Display(Name = "Cargo")]
         public string Role { get; set; }
 
         [Required]
-        [Display(Name = "Attendence Room")]
+        [Display(Name = "Sala de Atendimento")]
         public string Room { get; set; }
 
-        [Display(Name = "Image")]
+        [Display(Name = "Imagem")]
         public string ImageUrl { get; set; }
 
         public User User { get; set; }

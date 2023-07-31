@@ -7,48 +7,52 @@ namespace ClinicaVeterinariaWeb.Data.Entities
     {
         public int Id { get; set; }
 
-        [Display(Name = "Client Name")]
+        [Display(Name = "Nome")]
         [Required]
         [MaxLength(100, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string ClientName { get; set; }
 
         [Required]
-        [Display(Name = "Document")]
+        [Display(Name = "Documento")]
         public string Document { get; set; }
 
-        [Display(Name = "Fixed Phone")]
+        [Display(Name = "Telefone Fixo")]
         public string FixedPhone { get; set; }
 
         [Required]
-        [Display(Name = "Cell Phone")]
+        [Display(Name = "Telemóvel")]
         public string CellPhone { get; set; }
 
         [Required]
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "Morada")]
         public string Address { get; set; }
 
         [Required]
-        [Display(Name = "Animal Name")]
+        [Display(Name = "Nome do Animal")]
         [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters length.")]
         public string AnimalName { get; set; }
 
         [Required]
+        [Display(Name = "Espécie")]
         public string Species { get; set; }
 
         [Required]
-        [Display(Name = "Animal Age")]
+        [Display(Name = "Idade")]
         public string AnimalAge { get; set; }
 
         [Required]
+        [Display(Name = "Raça")]
         public string Breed { get; set; }
 
         [MaxLength(250, ErrorMessage = "The field {0} can contain {1} characters length.")]
+        [Display(Name = "Observações")]
         public string Note { get; set; }
 
                 
-        [Display(Name = "Image")]
+        [Display(Name = "Imagem")]
         public string AnimalImageUrl { get; set; }
 
         public User User { get; set; }

@@ -16,7 +16,7 @@ namespace ClinicaVeterinariaWeb.Models
         public string LastName { get; set; }
 
         [DataType(DataType.Text)]
-        [Display(Name = "Perfis de usuário : ")]
+        [Display(Name = "Perfil de usuário : ")]
         [UIHint("List")]
         public List<SelectListItem> Roles { get; set; }
 
@@ -26,8 +26,8 @@ namespace ClinicaVeterinariaWeb.Models
         {
             Roles = new List<SelectListItem>();
             Roles.Add(new SelectListItem() { Value = "1", Text = "Admin" });
-            Roles.Add(new SelectListItem() { Value = "2", Text = "Funcionario" });
-            Roles.Add(new SelectListItem() { Value = "3", Text = "Cliente" });
+            Roles.Add(new SelectListItem() { Value = "2", Text = "Employee" });
+            Roles.Add(new SelectListItem() { Value = "3", Text = "Client" });
             
         }
 

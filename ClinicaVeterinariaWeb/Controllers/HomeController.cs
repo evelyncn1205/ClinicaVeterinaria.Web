@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 
 namespace ClinicaVeterinariaWeb.Controllers
@@ -61,6 +62,30 @@ namespace ClinicaVeterinariaWeb.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Comunicacao()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Comunicacao(string nome, string email, string mensagem )
+        {
+            if (ModelState.IsValid)
+            {
+                var comunicacao = new Comunicacao
+                {
+                    Name = nome,
+                    Email = email,
+                    Mensagem = mensagem
+                };
+                _context.Comunicacoes.Add(comunicacao);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Servicos));
+            }
+
+            return RedirectToAction();
         }
     }
 }

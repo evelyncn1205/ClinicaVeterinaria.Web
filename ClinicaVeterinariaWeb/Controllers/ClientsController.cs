@@ -34,7 +34,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Clients
-        [Authorize(Roles = "Funcionario, Admin")]
+        [Authorize(Roles = "Employee, Admin")]
         public IActionResult Index()
         {
             return View(_clientRepository.GetAll().OrderBy(e => e.ClientName));
@@ -58,7 +58,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Clients/Create
-        [Authorize(Roles = "Funcionario")]
+        [Authorize(Roles = "Employee")]
         public IActionResult Create()
         {
             return View();
@@ -92,7 +92,7 @@ namespace ClinicaVeterinariaWeb.Controllers
 
 
         // GET: Clients/Edit/5
-        [Authorize(Roles = "Funcionario")]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -153,7 +153,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Clients/Delete/5
-        [Authorize(Roles = "Funcionario")]
+        [Authorize(Roles = "Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

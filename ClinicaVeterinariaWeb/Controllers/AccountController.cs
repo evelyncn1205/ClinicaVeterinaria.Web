@@ -68,8 +68,8 @@ namespace ClinicaVeterinariaWeb.Controllers
             var model = new RegisternewUserViewModel();
             model.Roles = new List<SelectListItem>
             {
-                  new SelectListItem { Text = "Funcionario", Value = "Funcionario" },
-                  new SelectListItem { Text = "Cliente", Value = "Cliente" },
+                  new SelectListItem { Text = "Employee", Value = "Employee" },
+                  new SelectListItem { Text = "Client", Value = "Client" },
                   new SelectListItem { Text = "Admin", Value = "Admin" }
             };
             return View(model);
@@ -88,7 +88,8 @@ namespace ClinicaVeterinariaWeb.Controllers
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.Username,
-                        UserName = model.Username
+                        UserName = model.Username,
+                        
                     };
 
                     var resut = await _userHelper.AddUserAsync(user, model.Password);
@@ -98,27 +99,28 @@ namespace ClinicaVeterinariaWeb.Controllers
                         return View();
                     }
 
-                    var loginViewModel = new LoginViewModel
-                    {
-                        Password = model.Password,
-                        RememberMe = false,
-                        UserName = model.Username
-                    };
+                    //var loginViewModel = new LoginViewModel
+                    //{
+                    //    Password = model.Password,
+                    //    RememberMe = false,
+                    //    UserName = model.Username
+                    //};
 
-                    var result2 = await _userHelper.LoginAsync(loginViewModel);
-                    if (result2.Succeeded)
+                    //var result2 = await _userHelper.LoginAsync(loginViewModel);
+                    //if (result2.Succeeded)
+                    //{
+                    //    return RedirectToAction("Index", "Home");
+                    //}
+                    if (model.Role != null)
                     {
-                        return RedirectToAction("Index", "Home");
+                        var applicationRole = await _roleManager.FindByNameAsync(model.Role);
+                        if (applicationRole != null)
+                        {
+                            IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);  
+                        }
+
+                        ModelState.AddModelError(string.Empty, "The user couldn't be logged.");
                     }
-
-                    var applicationRole = await _roleManager.FindByNameAsync(model.Role);
-                    if (applicationRole != null)
-                    {
-                        IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                    }
-
-                    ModelState.AddModelError(string.Empty, "The user couldn't be logged.");
-
                 }
 
             }

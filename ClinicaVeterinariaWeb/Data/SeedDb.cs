@@ -30,9 +30,9 @@ namespace ClinicaVeterinariaWeb.Data
             await _context.Database.EnsureCreatedAsync();
 
             await _userHelper.CheckRoleAsync("Admin");
-            await _userHelper.CheckRoleAsync("Cliente");
+            await _userHelper.CheckRoleAsync("Client");
             await _userHelper.CheckRoleAsync("Anonimo");
-            await _userHelper.CheckRoleAsync("Funcionario");
+            await _userHelper.CheckRoleAsync("Employee");
 
 
             var user = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
@@ -59,9 +59,8 @@ namespace ClinicaVeterinariaWeb.Data
             var isInRole = await _userHelper.IsUserRoleAsync(user, "Admin");
             if(!isInRole)
             {
-                await _userHelper.AddUserRoleAsync(user, "Admin");
-                await _userHelper.AddUserRoleAsync(user, "Cliente");
-                await _userHelper.AddUserRoleAsync(user, "Funcionario");
+                await _userHelper.AddUserRoleAsync(user, "Client");
+                await _userHelper.AddUserRoleAsync(user, "Employee");
                 await _userHelper.AddUserRoleAsync(user, "Anonimo");
             }
 

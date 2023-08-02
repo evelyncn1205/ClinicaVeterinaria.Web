@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "Comunicacao";
+}
+
+<h2>Comunicação com Cliente</h2>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="Description"
+          content="clinica veterinária" />
+    <meta name="Keywords"
+          content="clinica veteriária" />
+    <title>Clínica veterinária Animals Friends |Servicos</title>
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+    <div>
+        <aside id="sidebar">
+            <div class="dark">
+                
+                <form class="contacto" method="post" action="/Home/Comunicacao">
+                    <div>
+                        <label>Nome</label><br />
+                        <input type="text"  name="Nome" placeholder="Nome" />
+                    </div>
+
+                    <div>
+                        <label>Email</label><br />
+                        <input type="email" name="Email" placeholder="Endereço de email" />
+                    </div>
+
+                    <div>
+                        <label>Mensagem</label><br />
+                        <textarea name="Mensagem" class="form-control-file " placeholder="Mensagem"></textarea>
+                    </div>
+                    <br/>
+                    <button class="button_1" type="submit">Enviar Email</button>
+                </form>
+            </div>
+        </aside>
+    </div>
+</body>
+
+</html>

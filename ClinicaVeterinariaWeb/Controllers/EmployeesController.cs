@@ -45,14 +45,14 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("EmployeeNotFound");
             }
 
             var employee = await _employeeRepository.GetByIdAsync(id.Value);
                
             if (employee == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("EmployeeNotFound");
             }
 
             return View(employee);
@@ -97,13 +97,13 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("EmployeeNotFound");
             }
 
             var employee = await _employeeRepository.GetByIdAsync(id.Value);
             if (employee == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("EmployeeNotFound");
             }
 
             var model = _converterHelper.ToEmployeeViewModel(employee);
@@ -158,13 +158,13 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("EmployeeNotFound");
             }
 
             var employee = await _employeeRepository.GetByIdAsync(id.Value);
             if (employee == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("EmployeeNotFound");
             }
 
             return View(employee);
@@ -179,6 +179,10 @@ namespace ClinicaVeterinariaWeb.Controllers
             await _employeeRepository.DeleteAsync(employee);
             return RedirectToAction(nameof(Index));
         }
-               
+             
+        public IActionResult EmployeeNotFound()
+        {
+            return View();
+        }
     }
 }

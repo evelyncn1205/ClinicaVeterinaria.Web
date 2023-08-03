@@ -54,9 +54,13 @@ namespace ClinicaVeterinariaWeb
             services.AddScoped<IConsultaRepository, ConsultaRepositorycs>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IImageHelper, ImageHelper>();
-            services.AddScoped<IConverterHelper, ConverterHelper>();  
-            
-              
+            services.AddScoped<IConverterHelper, ConverterHelper>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath ="/Account/NotAuthorized";
+                options.AccessDeniedPath= "/Account/NotAuthorized";
+            });
 
             services.AddControllersWithViews();
         }
@@ -74,6 +78,8 @@ namespace ClinicaVeterinariaWeb
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
 
             app.UseHttpsRedirection();
 

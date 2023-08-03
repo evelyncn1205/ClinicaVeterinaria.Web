@@ -37,13 +37,13 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ConsultaNotFound");
             }
 
             var consulta = await _consultaRepository.GetByIdAsync(id.Value);
             if (consulta == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ConsultaNotFound");
             }
 
             return View(consulta);
@@ -78,13 +78,13 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ConsultaNotFound");
             }
 
             var consulta = await _consultaRepository.GetByIdAsync(id.Value);
             if (consulta == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ConsultaNotFound");
             }
             return View(consulta);
         }
@@ -130,13 +130,13 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ConsultaNotFound");
             }
 
             var consulta = await _consultaRepository.GetByIdAsync(id.Value);
             if (consulta == null)
             {
-                return NotFound();
+                return NotFound(); return new NotFoundViewResult("ConsultaNotFound");
             }
 
             return View(consulta);
@@ -153,5 +153,9 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
        
+        public IActionResult ConsultaNotFound()
+        {
+            return View();
+        }
     }
 }

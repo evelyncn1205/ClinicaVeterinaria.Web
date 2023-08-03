@@ -87,5 +87,12 @@ namespace ClinicaVeterinariaWeb.Controllers
 
             return RedirectToAction();
         }
+
+        [Route("error/404")]
+        public IActionResult Error404()
+        {
+            return View();
+        }
+
     }
 }

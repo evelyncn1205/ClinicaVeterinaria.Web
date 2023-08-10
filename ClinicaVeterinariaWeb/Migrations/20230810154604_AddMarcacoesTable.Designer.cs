@@ -4,14 +4,16 @@ using ClinicaVeterinariaWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClinicaVeterinariaWeb.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230810154604_AddMarcacoesTable")]
+    partial class AddMarcacoesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,9 +250,8 @@ namespace ClinicaVeterinariaWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Cliente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
@@ -274,6 +275,8 @@ namespace ClinicaVeterinariaWeb.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.HasIndex("UserId");
 
@@ -618,9 +621,15 @@ namespace ClinicaVeterinariaWeb.Migrations
 
             modelBuilder.Entity("ClinicaVeterinariaWeb.Data.Entities.Marcacao", b =>
                 {
+                    b.HasOne("ClinicaVeterinariaWeb.Data.Entities.Client", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId");
+
                     b.HasOne("ClinicaVeterinariaWeb.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Cliente");
 
                     b.Navigation("User");
                 });

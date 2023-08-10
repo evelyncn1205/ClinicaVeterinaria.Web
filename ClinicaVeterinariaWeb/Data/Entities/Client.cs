@@ -24,6 +24,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public string CellPhone { get; set; }
 
         [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]

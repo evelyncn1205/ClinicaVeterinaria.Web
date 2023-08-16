@@ -12,15 +12,13 @@
 <table class="table">
     <thead>
         <tr>
-            @if(this.User.IsInRole("Admin,Funcionario"))
+            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Employee"))
             {
                 <th>
                     @Html.DisplayNameFor(model => model.User.FullName)
                 </th>
             }
-            <th>
-                @Html.DisplayNameFor(model => model.Cliente)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.NomeAnimal)
             </th>
@@ -46,15 +44,13 @@
        
 @foreach (var item in Model) {
         <tr>
-                @if (this.User.IsInRole("Admin,Funcionario"))
+                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Employee"))
                 {
                     <th>
                         @Html.DisplayNameFor(model => model.User.FullName)
                     </th>
                 }
-            <td>
-                    @Html.DisplayFor(modelItem => item.Cliente)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.NomeAnimal)
             </td>

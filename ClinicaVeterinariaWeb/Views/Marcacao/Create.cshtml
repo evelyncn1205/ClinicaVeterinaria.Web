@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ClinicaVeterinariaWeb.Data.Entities.MarcacaoDetailTemp>
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+<p>
+<a asp-action="AddMarcacao" class="btn btn-success">Adicionar Marcação</a>
+<a asp-action="ConfirmOrder" class="btn btn-primary">Confirmar Marcação</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Client.ClientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeAnimal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CellPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipodaConsulta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MotivoDaConsulta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.ClientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeAnimal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CellPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipodaConsulta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MotivoDaConsulta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+            <a asp-action="Increase" asp-route-id="@item.Id" class="btn btn-warning"><i class="fa fa-plus"></i></a>
+            <a asp-action="Decrease" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-minus"></i></a>
+            <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+            </td>
+            </tr>
+        }
+    </tbody>
+</table>

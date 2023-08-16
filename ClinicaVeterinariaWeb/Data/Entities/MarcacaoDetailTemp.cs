@@ -24,6 +24,10 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public string CellPhone { get; set; }
 
         [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
         [Display(Name = "Tipo de Consulta")]
         public string TipodaConsulta { get; set; }
 
@@ -36,11 +40,12 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public TimeSpan Hora { get; set; }
 
         [Required]
-        [Display(Name = "Motivo da Cnsulta")]
+        [Display(Name = "Motivo da Consulta")]
         public string MotivoDaConsulta { get; set; }
 
         public IEnumerable<MarcacaoDetail> Marcacoes { get; set; }
 
+        [Display(Name = "Quantidade")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
         public double Quantity => Marcacoes == null ? 0 : Marcacoes.Sum(i => i.Quantity);
     }

@@ -36,10 +36,10 @@ namespace ClinicaVeterinariaWeb.Data
             await _userHelper.CheckRoleAsync("Employee");
 
 
-            var user = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
-            if (user == null)
+            var userAdmin = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
+            if (userAdmin == null)
             {
-                user = new User
+                userAdmin = new User
                 {
                     FirstName="Evelyn",
                     LastName="Nunes",
@@ -48,29 +48,69 @@ namespace ClinicaVeterinariaWeb.Data
                     PhoneNumber = "963258741"
                 };
                 
-                var result = await _userHelper.AddUserAsync(user,"123456");
+                var result = await _userHelper.AddUserAsync(userAdmin,"123456");
                 if(result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
 
-                await _userHelper.AddUserRoleAsync(user, "Admin");
+                await _userHelper.AddUserRoleAsync(userAdmin, "Admin");
             }
 
-            var isInRole = await _userHelper.IsUserRoleAsync(user, "Admin");
+            var userEmployee = await _userHelper.GetUserByEmailAsync("maria@gmail.com");
+            if(userEmployee == null)
+            {
+                userEmployee= new User
+                {
+                    FirstName = "Rosa",
+                    LastName= "Maria",
+                    Email= "maria@hmail.com",
+                    UserName="maria@gmail.com",
+                    PhoneNumber="963852741"
+                };
+                var result = await _userHelper.AddUserAsync(userEmployee, "123456");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the user in seeder");
+                }
+
+                await _userHelper.AddUserRoleAsync(userEmployee, "Employee");
+            }
+
+            var userClient = await _userHelper.GetUserByEmailAsync("carlosalberto@yopmail.com");
+            if(userClient == null)
+            {
+                userClient = new User
+                {
+                    FirstName= "Carlos",
+                    LastName= "Alberto",
+                    Email="carlosalberto@yopmail.com",
+                    UserName="carlosalberto@yopmail.com",
+                    PhoneNumber ="987456321"
+                };
+                var result = await _userHelper.AddUserAsync(userClient, "123456");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the user in seeder");
+                }
+
+                await _userHelper.AddUserRoleAsync(userClient, "Client");
+            }
+
+            var isInRole = await _userHelper.IsUserRoleAsync(userAdmin, "Admin");
             if(!isInRole)
             {
-                await _userHelper.AddUserRoleAsync(user, "Client");
-                await _userHelper.AddUserRoleAsync(user, "Employee");
-                await _userHelper.AddUserRoleAsync(user, "Anonimo");
+                await _userHelper.AddUserRoleAsync(userClient, "Client");
+                await _userHelper.AddUserRoleAsync(userEmployee, "Employee");
+                //await _userHelper.AddUserRoleAsync(user, "Anonimo");
             }
 
             if (!_context.Clients.Any())
             {
-                AddClient("Carlos Alberto","carlosalberto@yopmail.com","Rua do trabalho Dificil 666","Chuchu","Cão","Poodle","8",user);
-                AddClient("Maria Silva","maria@yop.mail.com","Av da Saudade 840","Fofinho","Papagaio","Ave","5",user);
-                AddClient("Antonio Cardoso","antoniocardoso@yopmail.com","Travessa da libertade 963","Zorba","Cão","Braco Alemão","6",user);
-                AddClient("Fátima Rodrigues","fatima@yopmail.com","Av. Quero Praia 600","Negão","Cão","Poodle","12",user);
+                AddClient("Carlos Alberto","carlosalberto@yopmail.com","Rua do trabalho Dificil 666","Chuchu","Cão","Poodle","8",userAdmin);
+                AddClient("Maria Silva","maria@yop.mail.com","Av da Saudade 840","Fofinho","Papagaio","Ave","5",userAdmin);
+                AddClient("Antonio Cardoso","antoniocardoso@yopmail.com","Travessa da libertade 963","Zorba","Cão","Braco Alemão","6",userAdmin);
+                AddClient("Fátima Rodrigues","fatima@yopmail.com","Av. Quero Praia 600","Negão","Cão","Poodle","12",userAdmin);
 
                 await _context.SaveChangesAsync();
             }
@@ -78,9 +118,9 @@ namespace ClinicaVeterinariaWeb.Data
 
             if(! _context.Employees.Any())
             {
-                AddEmployees("Margarida", "Campos", "Médica", "margarida@gmail.com", "Rua do Riacho Fundo 80", "5",user);
-                AddEmployees("André", "Oliveira", "Médico", "andre@gmail.com", "Rua do Riacho Fundo 80", "1",user);
-                AddEmployees("Rosa", "Maria", "Recepcionista", "maria@gmail.com", "Rua do Riacho Fundo 80", "Recepção",user);
+                AddEmployees("Margarida", "Campos", "Médica", "margarida@gmail.com", "Rua do Riacho Fundo 80", "5",userAdmin);
+                AddEmployees("André", "Oliveira", "Médico", "andre@gmail.com", "Rua do Riacho Fundo 80", "1",userAdmin);
+                AddEmployees("Rosa", "Maria", "Recepcionista", "maria@gmail.com", "Rua do Riacho Fundo 80", "Recepção",userAdmin);
 
                 await _context.SaveChangesAsync();
             }
@@ -88,9 +128,9 @@ namespace ClinicaVeterinariaWeb.Data
 
             if (!_context.Consulta.Any())
             {
-                AddConsulta("Carlos Alberto", "Chuchu", DateTime.Parse("15-07-2023"), TimeSpan.Parse("10:00"), "Margarida", "Rotina","cão recem operado",user);
-                AddConsulta("Maria Silva", "Fofinho", DateTime.Parse("28-07-2023"), TimeSpan.Parse("15:00"), "André", "Vacina","papagaio teve a asa partida",user);
-                AddConsulta("Maria Silva", "Zorba", DateTime.Parse("31-07-2023"), TimeSpan.Parse("9:30"), "Margarida", "Rotina","avaliação",user);
+                AddConsulta("Carlos Alberto", "Chuchu", DateTime.Parse("15-07-2023"), TimeSpan.Parse("10:00"), "Margarida", "Rotina","cão recem operado",userEmployee);
+                AddConsulta("Maria Silva", "Fofinho", DateTime.Parse("28-07-2023"), TimeSpan.Parse("15:00"), "André", "Vacina","papagaio teve a asa partida", userEmployee);
+                AddConsulta("Maria Silva", "Zorba", DateTime.Parse("31-07-2023"), TimeSpan.Parse("9:30"), "Margarida", "Rotina","avaliação",userEmployee);
 
                 await _context.SaveChangesAsync();
             }

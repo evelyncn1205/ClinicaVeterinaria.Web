@@ -8,9 +8,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
     {
         public int Id { get; set; }
 
-        [Required]
-        public User User { get; set; }
-
+        
         [Required]
         public Client Client { get; set; }
 

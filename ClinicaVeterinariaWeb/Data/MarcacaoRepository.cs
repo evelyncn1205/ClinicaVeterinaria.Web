@@ -1,6 +1,7 @@
 ﻿using ClinicaVeterinariaWeb.Data.Entities;
 using ClinicaVeterinariaWeb.Helpers;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,25 @@ namespace ClinicaVeterinariaWeb.Data
             _userHelper = userHelper;
         }
 
+        
+
+        public async Task<IQueryable<MarcacaoDetailTemp>> GetDetailstempAsync(string userName)
+        {
+            var user= await _userHelper.GetUserByEmailAsync(userName);
+            
+            if (user == null)
+            {
+                return null;
+            }
+
+            return _context.MarcacaoDetailsTemp
+                .Include(m => m.Client)
+                .Where(i => i.User == user)
+                .OrderBy(m => m.Data);
+        }
+
+       
+
         public async Task<IQueryable<Marcacao>> GetMarcacaoAsync(string userName)
         {
             var user = await _userHelper.GetUserByEmailAsync(userName);
@@ -23,7 +43,7 @@ namespace ClinicaVeterinariaWeb.Data
             {
                 return null;
             }
-            if(await _userHelper.IsUserRoleAsync(user,"Admin,Funcionario"))
+            if(await _userHelper.IsUserRoleAsync(user,"Admin,Employee"))
             {
                 return _context.Marcacoes
                     .Include(m => m.Items)

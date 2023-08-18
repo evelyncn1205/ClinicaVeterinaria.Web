@@ -59,6 +59,17 @@ namespace ClinicaVeterinariaWeb.Data
 
         }
 
+        public async Task DeleteDetailTempAsync(int id)
+        {
+            var marcacaoDetailTemp = await _context.MarcacaoDetailsTemp.FindAsync(id);
+            if(marcacaoDetailTemp == null)
+            {
+                return;
+            }
+            _context.MarcacaoDetailsTemp.Remove(marcacaoDetailTemp);
+            await _context.SaveChangesAsync();
+        }
+
         public DateTime GetData()
         {
             return DateTime.Now;

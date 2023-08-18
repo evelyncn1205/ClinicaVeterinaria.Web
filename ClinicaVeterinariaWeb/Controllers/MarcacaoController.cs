@@ -65,6 +65,14 @@ namespace ClinicaVeterinariaWeb.Controllers
 
             return View(model);
         }
-
+        public async Task<IActionResult> DeleteItem(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            await _marcacaoRepository.DeleteDetailTempAsync(id.Value);
+            return RedirectToAction("Create");
+        }
     }
 }

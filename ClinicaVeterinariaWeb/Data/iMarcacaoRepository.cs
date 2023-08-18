@@ -19,5 +19,7 @@ namespace ClinicaVeterinariaWeb.Data
 
         string GetTipoConsulta();
 
+        Task DeleteDetailTempAsync(int id);
+
     }
 }

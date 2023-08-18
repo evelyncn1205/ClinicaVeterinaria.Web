@@ -59,6 +59,53 @@ namespace ClinicaVeterinariaWeb.Data
 
         }
 
+        public async Task<bool> ConfirmMarcacaoAsync(string userName)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+            if (user == null)
+            {
+                return false;
+            }
+            var marcacaoTemp = await _context.MarcacaoDetailsTemp
+                .Include(m => m.Client)
+                .Where(m => m.User == user)
+                .ToListAsync();
+           if(marcacaoTemp == null || marcacaoTemp.Count==0)
+           {
+                return false;
+           }
+
+           var details= marcacaoTemp.Select(m=> new MarcacaoDetail
+           {
+              Client= m.Client,
+              NomeAnimal=m.NomeAnimal,
+              Data=m.Data,
+              Hora=m.Hora,
+              CellPhone=m.CellPhone,
+              TipodaConsulta=m.TipodaConsulta,
+              Quantity= Convert.ToInt32( m.Quantity),
+
+           }).ToList();
+
+            var marcacao = new Marcacao
+            {
+                Data = DateTime.UtcNow,
+                User = user,
+                Items = details,
+                CellPhone= details.FirstOrDefault()?.CellPhone,
+                Cliente= details.FirstOrDefault()?.Client.ClientName,
+                Email= details.FirstOrDefault()?.Client.Email,
+                NomeAnimal=details.FirstOrDefault()?.NomeAnimal,
+                TipodaConsulta=details.FirstOrDefault()?.TipodaConsulta,
+                
+                
+            };
+            await CreateAsync(marcacao);
+            _context.MarcacaoDetailsTemp.RemoveRange(marcacaoTemp);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task DeleteDetailTempAsync(int id)
         {
             var marcacaoDetailTemp = await _context.MarcacaoDetailsTemp.FindAsync(id);
@@ -102,9 +149,11 @@ namespace ClinicaVeterinariaWeb.Data
             {
                 return null;
             }
-            if(await _userHelper.IsUserRoleAsync(user,"Admin,Employee"))
+            if(await _userHelper.IsUserRoleAsync(user, "Admin") ||
+                await _userHelper.IsUserRoleAsync(user, "Employee"))
             {
                 return _context.Marcacoes
+                    .Include(m=>m.User)
                     .Include(m => m.Items)
                     .ThenInclude(i => i.Client)
                     .OrderByDescending(m => m.Data);

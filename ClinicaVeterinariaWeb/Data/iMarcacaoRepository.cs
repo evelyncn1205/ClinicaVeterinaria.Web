@@ -20,6 +20,6 @@ namespace ClinicaVeterinariaWeb.Data
         string GetTipoConsulta();
 
         Task DeleteDetailTempAsync(int id);
-
+        Task<bool> ConfirmMarcacaoAsync(string userName);
     }
 }

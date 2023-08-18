@@ -97,12 +97,23 @@ namespace ClinicaVeterinariaWeb.Data
                 await _userHelper.AddUserRoleAsync(userClient, "Client");
             }
 
-            var isInRole = await _userHelper.IsUserRoleAsync(userAdmin, "Admin");
-            if(!isInRole)
+            var isInRoleAdmin = await _userHelper.IsUserRoleAsync(userAdmin, "Admin");
+            var isInRoleEmployee = await _userHelper.IsUserRoleAsync(userEmployee, "Employee");
+            var isInRoleClient = await _userHelper.IsUserRoleAsync(userClient, "Client");
+
+            if(!isInRoleAdmin)
+            {
+                await _userHelper.AddUserRoleAsync(userAdmin, "Admin");
+            }
+
+            if(!isInRoleEmployee)
+            {
+                await _userHelper.AddUserRoleAsync(userEmployee, "Employee");
+            }
+
+            if(!isInRoleClient)
             {
                 await _userHelper.AddUserRoleAsync(userClient, "Client");
-                await _userHelper.AddUserRoleAsync(userEmployee, "Employee");
-                //await _userHelper.AddUserRoleAsync(user, "Anonimo");
             }
 
             if (!_context.Clients.Any())

@@ -30,9 +30,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Display(Name = "Hora")]
         public TimeSpan Hora { get; set; }
 
-        [Required]
-        [Display(Name = "Motivo da Cnsulta")]
-        public string MotivoDaConsulta { get; set; }
+       
         public int Quantity { get; internal set; }
     }
 }

@@ -36,5 +36,7 @@ namespace ClinicaVeterinariaWeb.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        public double Quantity { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ClinicaVeterinariaWeb.Data.Entities;
+using ClinicaVeterinariaWeb.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,5 +12,12 @@ namespace ClinicaVeterinariaWeb.Data
 
         Task<IQueryable<MarcacaoDetailTemp>> GetDetailstempAsync(string userName);
                
+        Task AddItemMarcacaoAsync(AddMarcacaoViewModel model, string userName);
+
+        DateTime GetData();
+        TimeSpan GetHora(double hora);
+
+        string GetTipoConsulta();
+
     }
 }

@@ -39,6 +39,6 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
         public IEnumerable<MarcacaoDetail> Items { get; set; }
 
-
+        public double Quantity { get; set; }
     }
 }

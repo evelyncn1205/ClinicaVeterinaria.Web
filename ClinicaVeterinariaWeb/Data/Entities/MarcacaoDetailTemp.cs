@@ -39,14 +39,12 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Display(Name = "Hora")]
         public TimeSpan Hora { get; set; }
 
-        [Required]
-        [Display(Name = "Motivo da Consulta")]
-        public string MotivoDaConsulta { get; set; }
+        
 
         public IEnumerable<MarcacaoDetail> Marcacoes { get; set; }
 
         [Display(Name = "Quantidade")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
-        public double Quantity => Marcacoes == null ? 0 : Marcacoes.Sum(i => i.Quantity);
+        public double Quantity { get; set; }
     }
 }

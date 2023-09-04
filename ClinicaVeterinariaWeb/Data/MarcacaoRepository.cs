@@ -31,7 +31,7 @@ namespace ClinicaVeterinariaWeb.Data
                 return ;
             }
             var marcacaoDetailTemp = await _context.MarcacaoDetailsTemp
-                .Where(mdt => mdt.User == user && mdt.Client ==marcacao)
+                .Where(mdt => mdt.User == user && mdt.Client == marcacao)
                 .FirstOrDefaultAsync();
             if(marcacaoDetailTemp == null)
             {
@@ -70,7 +70,7 @@ namespace ClinicaVeterinariaWeb.Data
                 .Include(m => m.Client)
                 .Where(m => m.User == user)
                 .ToListAsync();
-           if(marcacaoTemp == null || marcacaoTemp.Count==0)
+           if(marcacaoTemp == null || marcacaoTemp.Count == 0)
            {
                 return false;
            }
@@ -83,7 +83,7 @@ namespace ClinicaVeterinariaWeb.Data
               Hora=m.Hora,
               CellPhone=m.CellPhone,
               TipodaConsulta=m.TipodaConsulta,
-              Quantity= Convert.ToInt32( m.Quantity),
+              Quantity= m.Quantity
 
            }).ToList();
 
@@ -97,8 +97,8 @@ namespace ClinicaVeterinariaWeb.Data
                 Email= details.FirstOrDefault()?.Client.Email,
                 NomeAnimal=details.FirstOrDefault()?.NomeAnimal,
                 TipodaConsulta=details.FirstOrDefault()?.TipodaConsulta,
-                
-                
+
+
             };
             await CreateAsync(marcacao);
             _context.MarcacaoDetailsTemp.RemoveRange(marcacaoTemp);
@@ -169,6 +169,21 @@ namespace ClinicaVeterinariaWeb.Data
         public string GetTipoConsulta()
         {
             return string.Empty;
+        }
+
+        public async Task ModifyReserveDetailTempQuantityAsync(int id, double quantity)
+        {
+            var marcacaoDetailTemp = await _context.MarcacaoDetailsTemp.FindAsync(id);
+            if(marcacaoDetailTemp == null)
+            {
+                return;
+            }
+            marcacaoDetailTemp.Quantity = quantity;
+            if(marcacaoDetailTemp.Quantity > 0)
+            {
+                _context.MarcacaoDetailsTemp.Update(marcacaoDetailTemp);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

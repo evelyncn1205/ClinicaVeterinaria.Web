@@ -40,6 +40,7 @@ namespace ClinicaVeterinariaWeb.Controllers
 
                 var model = new AddMarcacaoViewModel
                 {
+                    Quantity = 1,
                     Cliente = _clientRepository.GetComboClients(),
                     AnimalName = _clientRepository.GetAnimalName(),
                     CellPhone = _clientRepository.GetCellPhone(),
@@ -59,7 +60,7 @@ namespace ClinicaVeterinariaWeb.Controllers
 
             if(ModelState.IsValid)
             {
-                await _marcacaoRepository.AddItemMarcacaoAsync(model, this.User.Identity.Name);
+                await _marcacaoRepository.AddItemMarcacaoAsync(model,this.User.Identity.Name);
                 return RedirectToAction("Create");
             }
 

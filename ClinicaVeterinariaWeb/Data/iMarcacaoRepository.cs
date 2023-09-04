@@ -21,5 +21,7 @@ namespace ClinicaVeterinariaWeb.Data
 
         Task DeleteDetailTempAsync(int id);
         Task<bool> ConfirmMarcacaoAsync(string userName);
+
+        Task ModifyReserveDetailTempQuantityAsync(int id, double quantity);
     }
 }

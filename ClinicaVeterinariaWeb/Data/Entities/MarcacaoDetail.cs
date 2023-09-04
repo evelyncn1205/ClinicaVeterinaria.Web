@@ -24,13 +24,15 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Display(Name = "Tipo de Consulta")]
         public string TipodaConsulta { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime Data { get; set; }
 
         [Required]
         [Display(Name = "Hora")]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = false)]
         public TimeSpan Hora { get; set; }
 
        
-        public int Quantity { get; internal set; }
+        public double Quantity { get; set; }
     }
 }

@@ -6,69 +6,157 @@
 <h2>Create</h2>
 <p>
 <a asp-action="AddMarcacao" class="btn btn-success">Adicionar Marcação</a>
-<a asp-action="ConfirmMarcacao" class="btn btn-primary">Confirmar Marcação</a>
+<a asp-action="ConfirmMarcacao" class="btn btn-primary" id="btnConfirm">Confirmar Marcação</a>
 
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Client.ClientName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NomeAnimal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CellPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipodaConsulta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Data)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hora)
-            </th>
+<div class="row">
+  <div class="col-md-12">  
+     <div class="panel panel-default">
+        <div class="panel-heading">
+             <h3 class="panel-title">Marcação</h3>
+        </div>
+        <div class="panel-body">
+            <table class="tabletable-hover table-responsive table-striped" id="MyTable">
+               <thead>
+                  <tr>
+                     <th>
+                            @Html.DisplayNameFor(model => model.User.FullName)
+                     </th>
+                     <th>
+                            @Html.DisplayNameFor(model => model.Client.ClientName)
+                     </th>
+                     <th>
+                              @Html.DisplayNameFor(model => model.NomeAnimal)
+                     </th>
+                     <th>
+                              @Html.DisplayNameFor(model => model.CellPhone)
+                     </th>
+                     <th>
+                              @Html.DisplayNameFor(model => model.Email)
+                     </th>
+                     <th>
+                              @Html.DisplayNameFor(model => model.TipodaConsulta)
+                     </th>
+                     <th>
+                               @Html.DisplayNameFor(model => model.Data)
+                     </th>
+                     <th>
+                               @Html.DisplayNameFor(model => model.Hora)
+                     </th>
             
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model)
-        {
-            <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Client.ClientName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeAnimal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CellPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipodaConsulta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hora)
-            </td>
+                     <th>
+                               @Html.DisplayNameFor(model => model.Quantity)
+                     </th>
+                   </tr>
+               </thead>
+              <tbody>
+                @foreach(var item in Model)
+                {
+                   <tr>
+                       <td>
+                            @Html.DisplayFor(modelItem => item.User.FullName)
+                       </td>
+                       <td>
+                            @Html.DisplayFor(modelItem => item.Client.ClientName)
+                       </td>
+                       <td>
+                             @Html.DisplayFor(modelItem => item.NomeAnimal)
+                       </td>
+                       <td>
+                             @Html.DisplayFor(modelItem => item.CellPhone)
+                       </td>
+                       <td>
+                             @Html.DisplayFor(modelItem => item.TipodaConsulta)
+                       </td>
+                       <td>
+                              @Html.DisplayFor(modelItem => item.Data)
+                       </td>
+                       <td>
+                              @Html.DisplayFor(modelItem => item.Hora)
+                       </td> 
            
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-            <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-            </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                       <td>
+                              @Html.DisplayFor(modelItem => item.Quantity)
+                       </td>
+                       <td id="@item.Id">
+                            <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">Delete</a>
+                       </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+        </div>
+     </div>
+   </div>
+</div>
+
+<div id="confirmDialog" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmar Marcação</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-window-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <p> Deseja confirmar a marcação?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnYesConfirm">Yes</button>
+                <button type="button" class="btn btn-success" id="btnNoConfirm">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="deleteDialog" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete</h4>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-window-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja apagar a marcação ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnYesDelete">Yes</button>
+                <button type="button" class="btn btn-success" id="btnNoDelete">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var id= 0;
+
+           $("#btnConfirm").click(function(){
+              $("#confirmDialog").modal("show");
+               return false;
+           });
+           $("#btnNoConfirm").click(function () {
+              $("#confirmDialog").modal("hide");
+               return false;
+           });
+           $("#btnYesConfirm").click(function() {
+              window.location.href = "/Marcacao/ConfirmMarcacao";
+           });
+        
+           $("a[id*=btnDeleteItem]").click(function () {
+            debugger;
+            id = $(this).parent()[0].id;
+            $("#deleteDialog").modal("show");
+            return false;
+           });
+           $("#btnNoDelete").click(function () {
+             $("#deleteDialog").modal("hide");
+             return false;
+           });
+           $("#btnYesDelete").click(function () {
+                window.location.href = "/Marcacao/DeleteItem/" + id;
+           });
+          
+        });
+    </script>
+}

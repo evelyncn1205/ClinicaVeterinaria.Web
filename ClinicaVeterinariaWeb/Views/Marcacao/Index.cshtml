@@ -18,7 +18,9 @@
                     @Html.DisplayNameFor(model => model.User.FullName)
                 </th>
             }
-            
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.NomeAnimal)
             </th>
@@ -45,15 +47,18 @@
     </thead>
     <tbody>
        
-@foreach (var item in Model) {
+      @foreach (var item in Model)
+      {
         <tr>
                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Employee"))
                 {
                     <th>
-                        @Html.DisplayNameFor(model => model.User.FullName)
+                        @Html.DisplayNameFor(model => item.User.FullName)
                     </th>
                 }
-            
+            <td>
+                    @Html.DisplayFor(modelItem => item.Cliente)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NomeAnimal)
             </td>
@@ -81,7 +86,7 @@
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-  }
+      }
 
     </tbody>
 </table>

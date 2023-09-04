@@ -16,10 +16,12 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public string NomeAnimal { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy }", ApplyFormatInEditMode = false)]
         public DateTime Data { get; set; }
 
         [Required]
         [Display(Name = "Hora")]
+        
         public TimeSpan Hora { get; set; }
 
         [Required]
@@ -42,6 +44,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public double Quantity { get; set; }
 
         [Display(Name = "Data")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime? MarcacaoDateLocal => this.Data == null ? null : this.Data.ToLocalTime();
     }
 }

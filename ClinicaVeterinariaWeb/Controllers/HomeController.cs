@@ -58,11 +58,7 @@ namespace ClinicaVeterinariaWeb.Controllers
             return RedirectToAction();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        
 
         public IActionResult Comunicacao()
         {
@@ -88,11 +84,7 @@ namespace ClinicaVeterinariaWeb.Controllers
             return RedirectToAction();
         }
 
-        [Route("error/404")]
-        public IActionResult Error404()
-        {
-            return View();
-        }
+        
 
     }
 }

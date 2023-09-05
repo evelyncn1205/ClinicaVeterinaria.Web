@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Timers;
 
@@ -25,6 +28,8 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Required]
         [Display(Name = "Data")]
         public DateTime Date { get; set; }
+
+      
 
         [Required]
         [Display(Name = "Hora")]

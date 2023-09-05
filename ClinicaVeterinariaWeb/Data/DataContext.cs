@@ -21,7 +21,22 @@ namespace ClinicaVeterinariaWeb.Data
         {
 
         }
-        
-        
+
+
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    var cascadeFKS = modelBuilder.Model
+        //        .GetEntityTypes()
+        //        .SelectMany(m => m.GetForeignKeys())
+        //        .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+        //    foreach(var fk in cascadeFKS)
+        //    {
+        //        fk.DeleteBehavior = DeleteBehavior.Restrict;
+        //    }
+
+        //    base.OnModelCreating(modelBuilder);
+
+        //}
     }
 }

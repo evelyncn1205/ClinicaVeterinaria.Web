@@ -12,7 +12,7 @@
 <table class="table">
     <thead>
         <tr>
-            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Employee"))
+            @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee")))
             {
                 <th>
                     @Html.DisplayNameFor(model => model.User.FullName)
@@ -50,7 +50,7 @@
       @foreach (var item in Model)
       {
         <tr>
-                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Employee"))
+                @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee")))
                 {
                     <th>
                         @Html.DisplayNameFor(model => item.User.FullName)

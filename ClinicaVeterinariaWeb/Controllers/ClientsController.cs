@@ -176,8 +176,28 @@ namespace ClinicaVeterinariaWeb.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var client = await _clientRepository.GetByIdAsync(id);
-            await _clientRepository.DeleteAsync(client);
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                await _clientRepository.DeleteAsync(client);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException ex)
+            {
+
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
+                {
+                    ViewBag.ErrorTitle = $"{client.ClientName} provavelmente está a ser usado!!!";
+                    ViewBag.ErrorMessage = $"{client.ClientName} não pode ser apagado, existem consultas marcadas para este cliente.</br></br>" +
+                        $"Primeiro exclua as consultas marcadas" +
+                        $" e tente apagar novamente";
+
+                }
+
+                return View("Error");
+            }
+
+
         }
 
         public IActionResult ClientNotFound()

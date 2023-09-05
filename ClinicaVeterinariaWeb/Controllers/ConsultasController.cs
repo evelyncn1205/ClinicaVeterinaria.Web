@@ -148,8 +148,11 @@ namespace ClinicaVeterinariaWeb.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var consulta = await _consultaRepository.GetByIdAsync(id);
-            await _consultaRepository.DeleteAsync(consulta);    
+                 
+            await _consultaRepository.DeleteAsync(consulta);
             return RedirectToAction(nameof(Index));
+                     
+
         }
 
        

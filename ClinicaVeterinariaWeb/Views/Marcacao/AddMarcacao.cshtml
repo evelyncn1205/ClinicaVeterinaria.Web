@@ -21,12 +21,16 @@
                 <input asp-for="AnimalName" class="form-control" />
                 <span asp-validation-for="AnimalName" class="text-danger"></span>
             </div>
-
+                       
             <div class="form-group">
                 <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
-            </div>
+                <div class="input-group date" data-provide="datepicker">
+                    <input type="text" asp-for="Data" class="form-control">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                    </div>
+                    <span asp-validation-for="Data" class="text-danger"></span>
+                </div>
             <div class="form-group">
                 <label asp-for="Hora" class="control-label"></label>
                 <input asp-for="Hora" class="form-control" />
@@ -62,6 +66,19 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+     }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var userLang = navigator.language || navigator.userLanguage;
+            console.log(userLang);
+            var options = $.extend({}, // empty object
+                $.datepicker.regional[pt - Pt], {
+                dateFormat: "dd/mm/yyyy"
+            } // your custom options
+            );
+            $(".date").datepicker(options);
+        });
+    </script>
     }
 

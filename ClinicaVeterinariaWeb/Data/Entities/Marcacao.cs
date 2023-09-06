@@ -9,6 +9,9 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public int Id { get; set; }
 
         [Required]
+        public User User { get; set; }
+
+        [Required]
         public string Cliente { get; set; }
 
         [Required]
@@ -16,7 +19,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public string NomeAnimal { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy }", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = false)]
         public DateTime Data { get; set; }
 
         [Required]
@@ -36,8 +39,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        public User User { get; set; }
+        
 
         public IEnumerable<MarcacaoDetail> Items { get; set; }
 

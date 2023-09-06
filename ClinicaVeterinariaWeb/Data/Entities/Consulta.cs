@@ -27,10 +27,10 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
         [Required]
         [Display(Name = "Data")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}", ApplyFormatInEditMode = false)]
         public DateTime Date { get; set; }
 
       
-
         [Required]
         [Display(Name = "Hora")]
         public TimeSpan Time { get; set; }

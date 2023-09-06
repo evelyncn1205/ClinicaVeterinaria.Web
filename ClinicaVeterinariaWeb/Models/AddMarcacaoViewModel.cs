@@ -19,10 +19,12 @@ namespace ClinicaVeterinariaWeb.Models
         public string AnimalName { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}", ApplyFormatInEditMode = false)]
         public DateTime Data { get; set; }
 
         [Required]
         [Display(Name = "Hora")]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = false)]
         public TimeSpan Hora { get; set; }
 
         [Required]

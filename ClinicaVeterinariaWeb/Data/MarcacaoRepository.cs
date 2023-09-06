@@ -87,20 +87,23 @@ namespace ClinicaVeterinariaWeb.Data
 
            }).ToList();
 
-            var marcacao = new Marcacao
+            foreach(MarcacaoDetail id in details.ToList())
             {
-                Data = DateTime.UtcNow,
-                User = user,
-                Items = details,
-                CellPhone= details.FirstOrDefault()?.CellPhone,
-                Cliente= details.FirstOrDefault()?.Client.ClientName,
-                Email= details.FirstOrDefault()?.Client.Email,
-                NomeAnimal=details.FirstOrDefault()?.NomeAnimal,
-                TipodaConsulta=details.FirstOrDefault()?.TipodaConsulta,
+                var marcacao = new Marcacao
+                {
+                    Data = DateTime.UtcNow,
+                    User = user,
+                    Items = details,
+                    CellPhone= id.CellPhone,
+                    Cliente= id.Client.ClientName,
+                    Email=id.Client.Email,
+                    NomeAnimal=id.NomeAnimal,
+                    TipodaConsulta=id.TipodaConsulta,
+                    Quantity= id.Quantity
 
-
-            };
-            await CreateAsync(marcacao);
+                };
+                await CreateAsync(marcacao);
+            }
             _context.MarcacaoDetailsTemp.RemoveRange(marcacaoTemp);
             await _context.SaveChangesAsync();
             return true;
@@ -115,6 +118,11 @@ namespace ClinicaVeterinariaWeb.Data
             }
             _context.MarcacaoDetailsTemp.Remove(marcacaoDetailTemp);
             await _context.SaveChangesAsync();
+        }
+         
+        public IQueryable GetAllWithUsers()
+        {
+            return _context.Marcacoes.Include(m => m.User);
         }
 
         public DateTime GetData()
@@ -133,7 +141,7 @@ namespace ClinicaVeterinariaWeb.Data
 
             return _context.MarcacaoDetailsTemp
                 .Include(m => m.Client)
-                .Where(i => i.User == user)
+                .Where(m => m.User == user)
                 .OrderBy(m => m.Data);
         }
 
@@ -153,7 +161,7 @@ namespace ClinicaVeterinariaWeb.Data
                 await _userHelper.IsUserRoleAsync(user, "Employee"))
             {
                 return _context.Marcacoes
-                    .Include(m=>m.User)
+                    .Include(a=>a.User)
                     .Include(m => m.Items)
                     .ThenInclude(i => i.Client)
                     .OrderByDescending(m => m.Data);
@@ -164,6 +172,16 @@ namespace ClinicaVeterinariaWeb.Data
                 .ThenInclude(i => i.Client)
                 .Where(m=>m.User == user)
                 .OrderByDescending(m =>m.Data);
+        }
+
+        public async Task<Marcacao> GetMarcacaoAync(int id)
+        {
+            return await _context.Marcacoes.FindAsync(id);
+        }
+
+        public async Task<MarcacaoDetailTemp> GetMarcacaoDetailTempAsync(int id)
+        {
+            return await _context.MarcacaoDetailsTemp.FindAsync(id);
         }
 
         public string GetTipoConsulta()

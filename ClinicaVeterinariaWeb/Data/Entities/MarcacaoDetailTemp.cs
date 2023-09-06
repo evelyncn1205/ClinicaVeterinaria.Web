@@ -32,7 +32,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public string TipodaConsulta { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy }", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}", ApplyFormatInEditMode = false)]
         public DateTime Data { get; set; }
 
         [Required]

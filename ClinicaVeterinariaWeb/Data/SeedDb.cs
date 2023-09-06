@@ -31,9 +31,10 @@ namespace ClinicaVeterinariaWeb.Data
             await _context.Database.MigrateAsync();
 
             await _userHelper.CheckRoleAsync("Admin");
+            await _userHelper.CheckRoleAsync("Employee");
             await _userHelper.CheckRoleAsync("Client");
             await _userHelper.CheckRoleAsync("Anonimo");
-            await _userHelper.CheckRoleAsync("Employee");
+            
 
 
             var userAdmin = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
@@ -45,7 +46,9 @@ namespace ClinicaVeterinariaWeb.Data
                     LastName="Nunes",
                     Email= "evelynrx_rj@hotmail.com",
                     UserName ="evelynrx_rj@hotmail.com",
-                    PhoneNumber = "963258741"
+                    PhoneNumber = "963258741",
+                    Address= "Travessa do Programador, 500 "
+
                 };
                 
                 var result = await _userHelper.AddUserAsync(userAdmin,"123456");
@@ -64,9 +67,10 @@ namespace ClinicaVeterinariaWeb.Data
                 {
                     FirstName = "Rosa",
                     LastName= "Maria",
-                    Email= "maria@hmail.com",
+                    Email= "maria@gmail.com",
                     UserName="maria@gmail.com",
-                    PhoneNumber="963852741"
+                    PhoneNumber="963852741",
+                    Address ="Rua do Monte Cativo, 43"
                 };
                 var result = await _userHelper.AddUserAsync(userEmployee, "123456");
                 if (result != IdentityResult.Success)
@@ -86,7 +90,8 @@ namespace ClinicaVeterinariaWeb.Data
                     LastName= "Alberto",
                     Email="carlosalberto@yopmail.com",
                     UserName="carlosalberto@yopmail.com",
-                    PhoneNumber ="987456321"
+                    PhoneNumber ="987456321",
+                    Address= "Rua Cristovão Colombo, 90"
                 };
                 var result = await _userHelper.AddUserAsync(userClient, "123456");
                 if (result != IdentityResult.Success)
@@ -101,7 +106,7 @@ namespace ClinicaVeterinariaWeb.Data
             var isInRoleEmployee = await _userHelper.IsUserRoleAsync(userEmployee, "Employee");
             var isInRoleClient = await _userHelper.IsUserRoleAsync(userClient, "Client");
 
-            if(!isInRoleAdmin)
+            if (!isInRoleAdmin)
             {
                 await _userHelper.AddUserRoleAsync(userAdmin, "Admin");
             }

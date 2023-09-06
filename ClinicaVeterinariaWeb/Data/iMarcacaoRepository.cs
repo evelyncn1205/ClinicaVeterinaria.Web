@@ -10,6 +10,9 @@ namespace ClinicaVeterinariaWeb.Data
     {
         Task<IQueryable<Marcacao>> GetMarcacaoAsync(string userName);
 
+        public IQueryable GetAllWithUsers();
+
+
         Task<IQueryable<MarcacaoDetailTemp>> GetDetailstempAsync(string userName);
                
         Task AddItemMarcacaoAsync(AddMarcacaoViewModel model, string userName);
@@ -20,7 +23,12 @@ namespace ClinicaVeterinariaWeb.Data
         string GetTipoConsulta();
 
         Task DeleteDetailTempAsync(int id);
+
         Task<bool> ConfirmMarcacaoAsync(string userName);
+
+        Task<MarcacaoDetailTemp> GetMarcacaoDetailTempAsync(int id);
+
+        Task<Marcacao> GetMarcacaoAync(int id);
 
         Task ModifyReserveDetailTempQuantityAsync(int id, double quantity);
     }

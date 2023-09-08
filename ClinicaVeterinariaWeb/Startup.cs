@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vereyon.Web;
 
 namespace ClinicaVeterinariaWeb
 {
@@ -46,6 +47,8 @@ namespace ClinicaVeterinariaWeb
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddFlashMessage();
+
             services.AddTransient<SeedDb>();
                                       
 
@@ -56,6 +59,7 @@ namespace ClinicaVeterinariaWeb
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<iMarcacaoRepository, MarcacaoRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
 
             services.ConfigureApplicationCookie(options =>
             {

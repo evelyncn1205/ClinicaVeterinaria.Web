@@ -15,7 +15,8 @@ namespace ClinicaVeterinariaWeb.Data
         public DbSet<Marcacao> Marcacoes { get; set; }
         public DbSet<MarcacaoDetailTemp> MarcacaoDetailsTemp { get; set; }
         public DbSet<MarcacaoDetail> MarcacaoDetails { get; set; }
-
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<City> Cities { get; set; }
         public DbSet<ClinicaVeterinariaWeb.Data.Entities.Consulta> Consulta { get; set; }
         public DataContext(DbContextOptions<DataContext>options) : base (options)
         {

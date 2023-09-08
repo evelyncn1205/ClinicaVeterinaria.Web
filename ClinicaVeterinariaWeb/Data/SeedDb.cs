@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Caching.Memory;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,8 +34,23 @@ namespace ClinicaVeterinariaWeb.Data
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("Employee");
             await _userHelper.CheckRoleAsync("Client");
-            await _userHelper.CheckRoleAsync("Anonimo");
-            
+            //await _userHelper.CheckRoleAsync("Anonimo");
+
+            if (!_context.Countries.Any())
+            {
+                var cities = new List<City>();
+                cities.Add(new City { Name = "Braga" });
+                cities.Add(new City { Name = "Guimarães" });
+                cities.Add(new City { Name = "Porto" });
+
+                _context.Countries.Add(new Country
+                {
+                    Cities = cities,
+                    Name = "Portugal"
+                });
+
+                await _context.SaveChangesAsync();
+            }
 
 
             var userAdmin = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
@@ -47,11 +63,13 @@ namespace ClinicaVeterinariaWeb.Data
                     Email= "evelynrx_rj@hotmail.com",
                     UserName ="evelynrx_rj@hotmail.com",
                     PhoneNumber = "963258741",
-                    Address= "Travessa do Programador, 500 "
-
+                    Address= "Travessa do Programador, 500 ",
+                    CityId = _context.Countries.FirstOrDefault().Cities.FirstOrDefault().Id,
+                    City = _context.Countries.FirstOrDefault().Cities.FirstOrDefault()
                 };
                 
                 var result = await _userHelper.AddUserAsync(userAdmin,"123456");
+
                 if(result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
@@ -70,7 +88,9 @@ namespace ClinicaVeterinariaWeb.Data
                     Email= "maria@gmail.com",
                     UserName="maria@gmail.com",
                     PhoneNumber="963852741",
-                    Address ="Rua do Monte Cativo, 43"
+                    Address ="Rua do Monte Cativo, 43",
+                    CityId = _context.Countries.FirstOrDefault().Cities.FirstOrDefault().Id,
+                    City = _context.Countries.FirstOrDefault().Cities.FirstOrDefault()
                 };
                 var result = await _userHelper.AddUserAsync(userEmployee, "123456");
                 if (result != IdentityResult.Success)
@@ -91,7 +111,9 @@ namespace ClinicaVeterinariaWeb.Data
                     Email="carlosalberto@yopmail.com",
                     UserName="carlosalberto@yopmail.com",
                     PhoneNumber ="987456321",
-                    Address= "Rua Cristovão Colombo, 90"
+                    Address= "Rua Cristovão Colombo, 90",
+                    CityId = _context.Countries.FirstOrDefault().Cities.FirstOrDefault().Id,
+                    City = _context.Countries.FirstOrDefault().Cities.FirstOrDefault()
                 };
                 var result = await _userHelper.AddUserAsync(userClient, "123456");
                 if (result != IdentityResult.Success)

@@ -20,6 +20,8 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
         public City City { get; set; }
 
+        public string Role { get; set; }
+
         [Display(Name = "Full Name")]
         public string FullName => $"{FirstName} {LastName}";
 

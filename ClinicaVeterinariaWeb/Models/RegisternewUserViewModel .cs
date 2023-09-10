@@ -20,6 +20,26 @@ namespace ClinicaVeterinariaWeb.Models
         [UIHint("List")]
         public List<SelectListItem> Roles { get; set; }
 
+        [Display(Name = "Morada")]
+        [MaxLength(100, ErrorMessage = "The fild {0} only can contain {1} characters length.")]
+        public string Address { get; set; }
+
+        [Display(Name = "Telefone")]
+        [MaxLength(20, ErrorMessage = "The fild {0} only can contain {1} characters length.")]
+        public string PhoneNumber { get; set; }
+
+        [Display(Name = "Cidade")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a city")]
+        public int CityId { get; set; }
+
+        public IEnumerable<SelectListItem> Cities { get; set; }
+
+        [Display(Name = "País")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a county")]
+        public int CountryId { get; set; }
+
+        public IEnumerable<SelectListItem> Countries { get; set; }
+
         public string Role { get; set; }
 
         public RegisternewUserViewModel()

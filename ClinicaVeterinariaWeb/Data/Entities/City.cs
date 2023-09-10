@@ -9,7 +9,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
 
         [Required]
-        [Display(Name = "City")]
+        [Display(Name = "Cidade")]
         [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters.")]
         public string Name { get; set; }
     }

@@ -4,15 +4,18 @@
     ViewData["Title"] = "Index";
 }
 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+
+
 <h1>Marcação</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary"><i class="fa fa-save"></i> Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee")))
+            @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee") || (this.User.IsInRole("Client"))))
             {
                 <th>
                     @Html.DisplayNameFor(model => model.User.FullName)
@@ -50,12 +53,12 @@
       @foreach (var item in Model)
       {
         <tr>
-                @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee")))
-                {
-                    <th>
-                        @Html.DisplayNameFor(model => item.User.FullName)
-                    </th>
-                }
+            @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee") || (this.User.IsInRole("Client"))))
+            {
+                <th>
+                   @Html.DisplayNameFor(model => item.User.FullName)
+                </th>
+            }
             <td>
                     @Html.DisplayFor(modelItem => item.Cliente)
             </td>

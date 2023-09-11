@@ -9,9 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Vereyon.Web;
 
@@ -31,6 +33,8 @@ namespace ClinicaVeterinariaWeb
         {
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
+                cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
@@ -41,6 +45,20 @@ namespace ClinicaVeterinariaWeb
             })
                 .AddDefaultTokenProviders()
                .AddEntityFrameworkStores<DataContext>();
+
+            services.AddAuthentication()
+                .AddCookie()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = this.Configuration["Token:Issuer"],
+                        ValidAudience = this.Configuration["Token:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
+                    };
+
+                });
 
             services.AddDbContext<DataContext>(cfg =>
             {
@@ -60,6 +78,7 @@ namespace ClinicaVeterinariaWeb
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<iMarcacaoRepository, MarcacaoRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<IMailHelper, MailHelper>();
 
             services.ConfigureApplicationCookie(options =>
             {

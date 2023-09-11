@@ -76,6 +76,8 @@ namespace ClinicaVeterinariaWeb.Data
                 }
 
                 await _userHelper.AddUserRoleAsync(userAdmin, "Admin");
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(userAdmin);
+                await _userHelper.ConfirmEmailAsync(userAdmin, token);
             }
 
             var userEmployee = await _userHelper.GetUserByEmailAsync("maria@gmail.com");
@@ -99,6 +101,8 @@ namespace ClinicaVeterinariaWeb.Data
                 }
 
                 await _userHelper.AddUserRoleAsync(userEmployee, "Employee");
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(userEmployee);
+                await _userHelper.ConfirmEmailAsync(userAdmin, token);
             }
 
             var userClient = await _userHelper.GetUserByEmailAsync("carlosalberto@yopmail.com");
@@ -122,6 +126,8 @@ namespace ClinicaVeterinariaWeb.Data
                 }
 
                 await _userHelper.AddUserRoleAsync(userClient, "Client");
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(userClient);
+                await _userHelper.ConfirmEmailAsync(userAdmin, token);
             }
 
             var isInRoleAdmin = await _userHelper.IsUserRoleAsync(userAdmin, "Admin");

@@ -12,5 +12,9 @@ namespace ClinicaVeterinariaWeb.Helpers
         Employee ToEmployee (EmployeeViewModel model, string path, bool isNew);
 
         EmployeeViewModel ToEmployeeViewModel (Employee employee);
+
+        Marcacao ToMarcacao (AddMarcacaoViewModel model, bool isNew);
+
+        AddMarcacaoViewModel ToMarcacaoViewModel(Marcacao marcacao);
     }
 }

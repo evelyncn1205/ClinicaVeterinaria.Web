@@ -1,0 +1,48 @@
+﻿@model ClinicaVeterinariaWeb.Models.AddMarcacaoViewModel
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h2>Editar</h2>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Editar" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="AnimalName" class="control-label"></label>
+                <input asp-for="AnimalName" class="form-control" />
+                <span asp-validation-for="AnimalName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Data" class="control-label"></label>
+                <input asp-for="Data" class="form-control" id="DateSelected" />
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hora" class="control-label"></label>
+                <input asp-for="Hora" class="form-control" />
+                <span asp-validation-for="Hora" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipodaConsulta" class="control-label"></label>
+                <input asp-for="TipodaConsulta" class="form-control" />
+                <span asp-validation-for="TipodaConsulta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Gravar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success">Voltar</a>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -8,8 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClinicaVeterinariaWeb.Controllers
 {
@@ -17,6 +20,7 @@ namespace ClinicaVeterinariaWeb.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DataContext _context;
+        
 
         public HomeController(ILogger<HomeController> logger, DataContext context)
         {
@@ -58,8 +62,8 @@ namespace ClinicaVeterinariaWeb.Controllers
             return RedirectToAction();
         }
 
-        
 
+        [Authorize(Roles = "Employee, Admin")]
         public IActionResult Comunicacao()
         {
             return View();
@@ -70,14 +74,53 @@ namespace ClinicaVeterinariaWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                 
                 var comunicacao = new Comunicacao
                 {
                     Name = nome,
                     Email = email,
                     Mensagem = mensagem
                 };
+                
                 _context.Comunicacoes.Add(comunicacao);
                 await _context.SaveChangesAsync();
+
+                
+                string smtpServer = "smtp.gmail.com";
+                int smtpPort = 587;
+                string smtpUsername = "evelyncnweb@gmail.com";
+                string smtpPassword = "lhloytvbowvqpxxy";
+
+                
+                SmtpClient smtpClient = new SmtpClient(smtpServer)
+                {
+                    Port = smtpPort,
+                    Credentials = new NetworkCredential(smtpUsername, smtpPassword),
+                    EnableSsl = true 
+                };
+
+                
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress(smtpUsername), 
+                    Subject = "Clinica Veterinária Animals Planet", 
+                    Body = mensagem, 
+                    IsBodyHtml = true 
+                };
+
+                mailMessage.To.Add(email); 
+
+                
+                try
+                {
+                    smtpClient.Send(mailMessage);
+                }
+                catch (Exception ex)
+                {
+                    
+                    return RedirectToAction("ErroAoEnviarEmail");
+                }
+
                 return RedirectToAction(nameof(Servicos));
             }
 

@@ -58,7 +58,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Clients/Create
-        [Authorize(Roles = "Employee")]
+        //[Authorize(Roles = "Employee")]
         public IActionResult Create()
         {
             return View();

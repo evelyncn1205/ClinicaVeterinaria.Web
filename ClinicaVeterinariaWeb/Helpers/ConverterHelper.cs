@@ -86,5 +86,39 @@ namespace ClinicaVeterinariaWeb.Helpers
                 User=employee.User,
             };
         }
+
+
+        public Marcacao ToMarcacao(AddMarcacaoViewModel model, bool isNew)
+        {
+            return new Marcacao
+            {
+                Id= isNew ? 0 : model.ClienteId,
+                CellPhone = model.CellPhone,
+                Data=model.Data,
+                Hora=model.Hora,
+                Email=model.Email,
+                NomeAnimal=model.AnimalName,
+                User=model.User,
+                TipodaConsulta=model.TipodaConsulta                
+
+            };
+        }
+
+        public AddMarcacaoViewModel ToMarcacaoViewModel(Marcacao marcacao)
+        {
+            return new AddMarcacaoViewModel
+            {
+                ClienteId= marcacao.Id,
+                AnimalName= marcacao.NomeAnimal,
+                Data= marcacao.Data,
+                Hora=   marcacao.Hora,
+                CellPhone= marcacao.CellPhone,
+                TipodaConsulta= marcacao.TipodaConsulta,
+                User= marcacao.User,
+                Email= marcacao.Email,
+
+
+            };
+        }
     }
 }

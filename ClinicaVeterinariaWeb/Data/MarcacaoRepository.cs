@@ -82,6 +82,7 @@ namespace ClinicaVeterinariaWeb.Data
               Data=m.Data,
               Hora=m.Hora,
               CellPhone=m.CellPhone,
+              Email=m.Email,
               TipodaConsulta=m.TipodaConsulta,
               Quantity= m.Quantity
 
@@ -91,8 +92,9 @@ namespace ClinicaVeterinariaWeb.Data
             {
                 var marcacao = new Marcacao
                 {
-                    Data = DateTime.UtcNow,
+                    Data = id.Data,
                     User = user,
+                    Hora = id.Hora,
                     Items = details,
                     CellPhone= id.CellPhone,
                     Cliente= id.Client.ClientName,
@@ -119,7 +121,56 @@ namespace ClinicaVeterinariaWeb.Data
             _context.MarcacaoDetailsTemp.Remove(marcacaoDetailTemp);
             await _context.SaveChangesAsync();
         }
-         
+
+        public async Task EditMarcacaoDetailTempAsync(AddMarcacaoViewModel model, string username)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(username);
+            if (user == null)
+            {
+                return;
+            }
+
+            var marcacaoDetailTemp = await _context.MarcacaoDetailsTemp.FindAsync(model.Id);
+            if (marcacaoDetailTemp == null)
+            {
+                return;
+            }
+
+            marcacaoDetailTemp.User = user;
+            marcacaoDetailTemp.Data = model.Data;
+            marcacaoDetailTemp.Hora = model.Hora;
+            marcacaoDetailTemp.TipodaConsulta = model.TipodaConsulta;
+            marcacaoDetailTemp.NomeAnimal = model.AnimalName;
+            marcacaoDetailTemp.CellPhone = model.CellPhone;
+            marcacaoDetailTemp.Email=model.Email;
+            marcacaoDetailTemp.Quantity=model.Quantity;
+
+            await _context.SaveChangesAsync();
+
+            //var user = await _userHelper.GetUserByEmailAsync(username);
+            //if (user == null)
+            //{
+            //    return;
+
+            //}
+            //var marcacao= await _context.Clients.FindAsync(user.Id);
+            //if (marcacao == null)
+            //{
+            //    return ;
+            //}
+
+            //var marcacaoDetailTemp = await _context.MarcacaoDetailsTemp.FindAsync(model.Id);
+            //marcacaoDetailTemp.User=user;
+            //marcacaoDetailTemp.Data= model.Data;
+            //marcacaoDetailTemp.Hora=model.Hora;
+            //marcacaoDetailTemp.TipodaConsulta=model.TipodaConsulta;
+            //marcacaoDetailTemp.NomeAnimal= model.AnimalName;
+
+            //_context.MarcacaoDetailsTemp.Update(marcacaoDetailTemp);
+
+            //await _context.SaveChangesAsync();
+        }
+
         public IQueryable GetAllWithUsers()
         {
             return _context.Marcacoes.Include(m => m.User);
@@ -189,7 +240,7 @@ namespace ClinicaVeterinariaWeb.Data
             return string.Empty;
         }
 
-        public async Task ModifyReserveDetailTempQuantityAsync(int id, double quantity)
+        public async Task ModifyMarcacaoDetailTempQuantityAsync(int id, double quantity)
         {
             var marcacaoDetailTemp = await _context.MarcacaoDetailsTemp.FindAsync(id);
             if(marcacaoDetailTemp == null)

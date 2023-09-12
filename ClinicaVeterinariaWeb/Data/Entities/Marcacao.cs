@@ -23,9 +23,9 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public DateTime Data { get; set; }
 
         [Required]
-        [Display(Name = "Hora")]
-        
+        [Display(Name = "Hora")]       
         public TimeSpan Hora { get; set; }
+        
 
         [Required]
         [Display(Name = "Tipo de Consulta")]

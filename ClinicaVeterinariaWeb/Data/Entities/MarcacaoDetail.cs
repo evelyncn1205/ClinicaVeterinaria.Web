@@ -21,6 +21,10 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public string CellPhone { get; set; }
 
         [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
         [Display(Name = "Tipo de Consulta")]
         public string TipodaConsulta { get; set; }
 
@@ -29,10 +33,9 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
         [Required]
         [Display(Name = "Hora")]
-        //[DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = false)]
         public TimeSpan Hora { get; set; }
 
-       
+        [DisplayFormat(DataFormatString = "{0:N2}")]
         public double Quantity { get; set; }
     }
 }

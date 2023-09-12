@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using ClinicaVeterinariaWeb.Data.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,9 @@ namespace ClinicaVeterinariaWeb.Models
 {
     public class AddMarcacaoViewModel
     {
+
+        public int Id { get; set; }
+
         [Display(Name="Cliente")]
         [Range(1, int.MaxValue, ErrorMessage = "Você deve selecionar um cliente")]
         public int ClienteId { get; set; }
@@ -38,6 +42,12 @@ namespace ClinicaVeterinariaWeb.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        public User User { get; set; }
+
+        //[Required]
+        //[DataType(DataType.EmailAddress)]
+        //public string Username { get; set; }
 
         public double Quantity { get; set; }
     }

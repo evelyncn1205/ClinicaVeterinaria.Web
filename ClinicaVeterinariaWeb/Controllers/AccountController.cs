@@ -89,7 +89,7 @@ namespace ClinicaVeterinariaWeb.Controllers
             roles.Roles = new List<SelectListItem>
             {
                   new SelectListItem { Text = "Employee", Value = "Employee" },
-                  new SelectListItem { Text = "Client", Value = "Client" },
+                  new SelectListItem { Text = "Client", Value = "Cliente" },
                   new SelectListItem { Text = "Admin", Value = "Admin" }
             };
 
@@ -105,7 +105,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                 roles.Roles = new List<SelectListItem>
                 {
                   new SelectListItem { Text = "Employee", Value = "Employee" },
-                  new SelectListItem { Text = "Client", Value = "Client" },
+                  new SelectListItem { Text = "Cliente", Value = "Client" },
                   new SelectListItem { Text = "Admin", Value = "Admin" }
                 };
 

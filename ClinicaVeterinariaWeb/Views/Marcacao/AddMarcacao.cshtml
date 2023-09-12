@@ -3,7 +3,7 @@
     ViewData["Title"] = "AddMarcacao";
 }
 
-<h2>Adicionar Marcacao</h2>
+<h2>Adicionar Marcação</h2>
 
 <div class="row">
     <div class="col-md-4">
@@ -20,17 +20,12 @@
                 <label asp-for="AnimalName" class="control-label"></label>
                 <input asp-for="AnimalName" class="form-control" />
                 <span asp-validation-for="AnimalName" class="text-danger"></span>
-            </div>
-                       
+            </div>                       
             <div class="form-group">
                 <label asp-for="Data" class="control-label"></label>
-                <div class="input-group date" data-provide="datepicker">
-                    <input type="text" asp-for="Data" class="form-control">
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                    </div>
-                    <span asp-validation-for="Data" class="text-danger"></span>
-                </div>
+                <input asp-for="Data" class="form-control" id="DateSelected" />
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Hora" class="control-label"></label>
                 <input asp-for="Hora" class="form-control" />
@@ -52,8 +47,8 @@
                 <span asp-validation-for="TipodaConsulta" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-success">Back to List</a>
+                <input type="submit" value="Adicionar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success">Voltar</a>
             </div>
 
         </form>
@@ -74,7 +69,7 @@
             console.log(userLang);
             var options = $.extend({}, // empty object
                 $.datepicker.regional[pt - Pt], {
-                dateFormat: "dd/mm/yyyy"
+                dateFormat: "dd/MM/yyyy"
             } // your custom options
             );
             $(".date").datepicker(options);

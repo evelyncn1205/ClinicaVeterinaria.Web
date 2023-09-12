@@ -44,9 +44,9 @@
                                @Html.DisplayNameFor(model => model.Hora)
                      </th>
             
-                     <th>
+                    @* <th>
                                @Html.DisplayNameFor(model => model.Quantity)
-                     </th>
+                     </th>*@
                    </tr>
                </thead>
               <tbody>
@@ -75,10 +75,13 @@
                               @Html.DisplayFor(modelItem => item.Hora)
                        </td> 
            
-                       <td>
+                       @*<td>
                               @Html.DisplayFor(modelItem => item.Quantity)
-                       </td>
+                       </td>*@
                        <td id="@item.Id">
+                            <a asp-action="Increase" asp-route-id="@item.Id" class="btn btn-warning"><i class="fa fa-plus"></i>+</a>
+                            <a asp-action="Decrease" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-minus"></i>-</a>
+                            <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-warning"><i class="fa fa-plus"></i>Editar</a>
                             <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">Delete</a>
                        </td>
                   </tr>

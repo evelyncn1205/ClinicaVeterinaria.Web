@@ -32,7 +32,9 @@ namespace ClinicaVeterinariaWeb.Data
             await _context.Database.MigrateAsync();
 
             await _userHelper.CheckRoleAsync("Admin");
+
             await _userHelper.CheckRoleAsync("Employee");
+
             await _userHelper.CheckRoleAsync("Client");
             //await _userHelper.CheckRoleAsync("Anonimo");
 
@@ -80,21 +82,22 @@ namespace ClinicaVeterinariaWeb.Data
                 await _userHelper.ConfirmEmailAsync(userAdmin, token);
             }
 
-            var userEmployee = await _userHelper.GetUserByEmailAsync("maria@gmail.com");
+            var userEmployee = await _userHelper.GetUserByEmailAsync("rosamaria@yopmail.com");
             if(userEmployee == null)
             {
                 userEmployee= new User
                 {
                     FirstName = "Rosa",
                     LastName= "Maria",
-                    Email= "maria@gmail.com",
-                    UserName="maria@gmail.com",
+                    Email= "rosamaria@yopmail.com",
+                    UserName="rosamaria@yopmail.com",
                     PhoneNumber="963852741",
                     Address ="Rua do Monte Cativo, 43",
                     CityId = _context.Countries.FirstOrDefault().Cities.FirstOrDefault().Id,
                     City = _context.Countries.FirstOrDefault().Cities.FirstOrDefault()
                 };
-                var result = await _userHelper.AddUserAsync(userEmployee, "123456");
+                var result = await _userHelper.AddUserAsync(userEmployee,"123456");
+
                 if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
@@ -102,7 +105,7 @@ namespace ClinicaVeterinariaWeb.Data
 
                 await _userHelper.AddUserRoleAsync(userEmployee, "Employee");
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(userEmployee);
-                await _userHelper.ConfirmEmailAsync(userAdmin, token);
+                await _userHelper.ConfirmEmailAsync(userEmployee, token);
             }
 
             var userClient = await _userHelper.GetUserByEmailAsync("carlosalberto@yopmail.com");
@@ -120,6 +123,7 @@ namespace ClinicaVeterinariaWeb.Data
                     City = _context.Countries.FirstOrDefault().Cities.FirstOrDefault()
                 };
                 var result = await _userHelper.AddUserAsync(userClient, "123456");
+
                 if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
@@ -127,7 +131,7 @@ namespace ClinicaVeterinariaWeb.Data
 
                 await _userHelper.AddUserRoleAsync(userClient, "Client");
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(userClient);
-                await _userHelper.ConfirmEmailAsync(userAdmin, token);
+                await _userHelper.ConfirmEmailAsync(userClient, token);
             }
 
             var isInRoleAdmin = await _userHelper.IsUserRoleAsync(userAdmin, "Admin");
@@ -151,8 +155,8 @@ namespace ClinicaVeterinariaWeb.Data
 
             if (!_context.Clients.Any())
             {
-                AddClient("Carlos Alberto","carlosalberto@yopmail.com","Rua do trabalho Dificil 666","Chuchu","Cão","Poodle","8",userAdmin);
-                AddClient("Maria Silva","maria@yop.mail.com","Av da Saudade 840","Fofinho","Papagaio","Ave","5",userAdmin);
+                AddClient("Carlos Alberto", "carlosalberto@yopmail.com", "Rua do trabalho Dificil 666","Chuchu","Cão","Poodle","8",userAdmin);
+                AddClient("Maria Silva","maria@yopmail.com","Av da Saudade 840","Fofinho","Papagaio","Ave","5",userAdmin);
                 AddClient("Antonio Cardoso","antoniocardoso@yopmail.com","Travessa da libertade 963","Zorba","Cão","Braco Alemão","6",userAdmin);
                 AddClient("Fátima Rodrigues","fatima@yopmail.com","Av. Quero Praia 600","Negão","Cão","Poodle","12",userAdmin);
 
@@ -164,7 +168,7 @@ namespace ClinicaVeterinariaWeb.Data
             {
                 AddEmployees("Margarida", "Campos", "Médica", "margarida@gmail.com", "Rua do Riacho Fundo 80", "5",userAdmin);
                 AddEmployees("André", "Oliveira", "Médico", "andre@gmail.com", "Rua do Riacho Fundo 80", "1",userAdmin);
-                AddEmployees("Rosa", "Maria", "Recepcionista", "maria@gmail.com", "Rua do Riacho Fundo 80", "Recepção",userAdmin);
+                AddEmployees("Rosa", "Maria", "Recepcionista", "rosamaria@yopmail.com", "Rua do Riacho Fundo 80", "Recepção",userAdmin);
 
                 await _context.SaveChangesAsync();
             }

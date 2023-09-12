@@ -30,6 +30,8 @@ namespace ClinicaVeterinariaWeb.Data
 
         Task<Marcacao> GetMarcacaoAync(int id);
 
-        Task ModifyReserveDetailTempQuantityAsync(int id, double quantity);
+        Task ModifyMarcacaoDetailTempQuantityAsync(int id, double quantity);
+
+        Task EditMarcacaoDetailTempAsync(AddMarcacaoViewModel model, string username);
     }
 }

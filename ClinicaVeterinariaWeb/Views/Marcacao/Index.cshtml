@@ -12,10 +12,13 @@
 <p>
     <a asp-action="Create" class="btn btn-primary"><i class="fa fa-save"></i> Create New</a>
 </p>
-<table class="table">
+
+<flash dismissable="true" />
+
+<table class="table table-hover table-responsive table-striped" id="MyTable">
     <thead>
         <tr>
-            @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee") || (this.User.IsInRole("Client"))))
+            @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee")))
             {
                 <th>
                     @Html.DisplayNameFor(model => model.User.FullName)
@@ -42,9 +45,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.StatusConsulta)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -53,7 +56,7 @@
       @foreach (var item in Model)
       {
         <tr>
-            @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee") || (this.User.IsInRole("Client"))))
+            @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Employee")))
             {
                 <th>
                    @Html.DisplayNameFor(model => item.User.FullName)
@@ -80,13 +83,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusConsulta)
+                </td>
             <td>
                 
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Cancelar" asp-route-id="@item.Id">Cancelar</a>
             </td>
         </tr>
       }

@@ -5,6 +5,36 @@
     {
       "library": "bootstrap-datepicker@1.10.0",
       "destination": "wwwroot/lib/bootstrap-datepicker/"
+    },
+    {
+      "library": "font-awesome@6.4.2",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "animate.css@4.1.1",
+      "destination": "wwwroot/lib/animate.css/"
+    },
+    
+    {
+      "library": "Shuffle@6.1.0",
+      "destination": "wwwroot/lib/Shuffle/"
+    },
+    {
+      "library": "angular-google-maps@2.4.1",
+      "destination": "wwwroot/lib/angular-google-maps/"
+    },
+    {
+      "library": "slick-carousel@1.8.1",
+      "destination": "wwwroot/lib/slick-carousel/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "colorbox@0.5.2",
+      "destination": "wwwroot/lib/colorbox/"
+    },
+    {
+      "library": "bootstrap@4.5.3",
+      "destination": "wwwroot/lib/bootstrap/"
     }
   ]
 }

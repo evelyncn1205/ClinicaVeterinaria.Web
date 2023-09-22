@@ -31,7 +31,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         public IActionResult Index()
         {
             return View();
-        }
+        }  
 
         public IActionResult Sobre()
         {

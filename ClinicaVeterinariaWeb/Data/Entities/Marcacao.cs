@@ -9,6 +9,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "User Name ")]
         public User User { get; set; }
 
         [Required]
@@ -25,7 +26,9 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Required]
         [Display(Name = "Hora")]       
         public TimeSpan Hora { get; set; }
-        
+
+        [Display(Name = "Status ")]
+        public StatusConsulta? StatusConsulta { get; set; } 
 
         [Required]
         [Display(Name = "Tipo de Consulta")]
@@ -35,11 +38,9 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Display(Name = "Telemóvel")]
         public string CellPhone { get; set; }
 
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
         
+        [Display(Name = "Email")]
+        public string Email { get; set; }               
 
         public IEnumerable<MarcacaoDetail> Items { get; set; }
 

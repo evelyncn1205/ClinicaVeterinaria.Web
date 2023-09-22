@@ -10,12 +10,9 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Required]
         [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters length.")]
         [Display(Name = "Nome")]
-        public string Name { get; set; }
+        public string FullName { get; set; }
 
-        [Required]
-        [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters length.")]
-        [Display(Name = "Apelido")]
-        public string LastName { get; set; }
+        
 
         [Required]
         [Display(Name = "Documento")]

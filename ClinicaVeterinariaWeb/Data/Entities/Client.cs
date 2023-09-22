@@ -10,7 +10,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Display(Name = "Nome")]
         [Required]
         [MaxLength(100, ErrorMessage = "The field {0} can contain {1} characters length.")]
-        public string ClientName { get; set; }
+        public string FullName { get; set; }
 
         [Required]
         [Display(Name = "Documento")]

@@ -37,7 +37,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         [Authorize(Roles = "Employee, Admin")]
         public IActionResult Index()
         {
-            return View(_clientRepository.GetAll().OrderBy(e => e.ClientName));
+            return View(_clientRepository.GetAll().OrderBy(e => e.FullName));
         }
 
         // GET: Clients/Details/5
@@ -187,8 +187,8 @@ namespace ClinicaVeterinariaWeb.Controllers
 
                 if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
                 {
-                    ViewBag.ErrorTitle = $"{client.ClientName} provavelmente está a ser usado!!!";
-                    ViewBag.ErrorMessage = $"{client.ClientName} não pode ser apagado, existem consultas marcadas para este cliente.</br></br>" +
+                    ViewBag.ErrorTitle = $"{client.FullName} provavelmente está a ser usado!!!";
+                    ViewBag.ErrorMessage = $"{client.FullName} não pode ser apagado, existem consultas marcadas para este cliente.</br></br>" +
                         $"Primeiro exclua as consultas marcadas" +
                         $" e tente apagar novamente";
 

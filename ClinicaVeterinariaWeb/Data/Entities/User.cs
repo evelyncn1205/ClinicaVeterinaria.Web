@@ -24,6 +24,5 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
         [Display(Name = "Full Name")]
         public string FullName => $"{FirstName} {LastName}";
-
     }
 }

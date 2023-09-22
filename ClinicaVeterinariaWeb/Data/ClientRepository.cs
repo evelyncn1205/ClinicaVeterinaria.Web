@@ -24,7 +24,7 @@ namespace ClinicaVeterinariaWeb.Data
         {
             var list = _context.Clients.Select(c => new SelectListItem
             {
-                Text= c.ClientName,
+                Text= c.FullName,
                 Value= c.Id.ToString()
             }).ToList();
 

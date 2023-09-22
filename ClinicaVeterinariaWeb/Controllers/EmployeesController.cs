@@ -37,7 +37,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            return View( _employeeRepository.GetAll().OrderBy(e => e.Name));
+            return View( _employeeRepository.GetAll().OrderBy(e => e.FullName));
         }
 
         // GET: Employees/Details/5

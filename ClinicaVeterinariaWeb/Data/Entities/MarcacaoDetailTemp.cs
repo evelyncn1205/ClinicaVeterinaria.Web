@@ -10,9 +10,11 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "User Name ")]
         public User User { get; set; }
 
         [Required]
+        [Display(Name = "Cliente ")]
         public Client Client { get; set; }
 
         [Required]
@@ -38,9 +40,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Required]
         [Display(Name = "Hora")]        
         public TimeSpan Hora { get; set; }
-
-
-        public IEnumerable<MarcacaoDetail> Marcacoes { get; set; }
+                
 
         [Display(Name = "Quantidade")]
         [DisplayFormat(DataFormatString = "{0:C2}")]

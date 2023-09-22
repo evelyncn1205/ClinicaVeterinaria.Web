@@ -93,11 +93,6 @@ namespace ClinicaVeterinariaWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClientName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("Document")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -108,6 +103,11 @@ namespace ClinicaVeterinariaWeb.Migrations
 
                     b.Property<string>("FixedPhone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Note")
                         .HasMaxLength(250)
@@ -245,18 +245,13 @@ namespace ClinicaVeterinariaWeb.Migrations
                     b.Property<string>("FixedPhone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -307,6 +302,9 @@ namespace ClinicaVeterinariaWeb.Migrations
 
                     b.Property<double>("Quantity")
                         .HasColumnType("float");
+
+                    b.Property<int?>("StatusConsulta")
+                        .HasColumnType("int");
 
                     b.Property<string>("TipodaConsulta")
                         .IsRequired()

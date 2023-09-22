@@ -12,7 +12,7 @@ namespace ClinicaVeterinariaWeb.Helpers
             {
                 Id = isNew ? 0 : model.Id,
                 AnimalImageUrl = path,
-                ClientName = model.ClientName,
+                FullName = model.FullName,
                 Document=model.Document,
                 AnimalAge= model.AnimalAge,
                 AnimalName = model.AnimalName,
@@ -33,7 +33,7 @@ namespace ClinicaVeterinariaWeb.Helpers
             {
                 Id = client.Id,
                 AnimalImageUrl = client.AnimalImageUrl,
-                ClientName = client.ClientName,
+                FullName = client.FullName,
                 Document=client.Document,
                 AnimalAge= client.AnimalAge,
                 AnimalName = client.AnimalName,
@@ -54,8 +54,7 @@ namespace ClinicaVeterinariaWeb.Helpers
             {
                 Id= isNew ? 0 : model.Id,
                 ImageUrl = path,
-                Name=model.Name,
-                LastName=model.LastName,
+                FullName=model.FullName,                
                 Address=model.Address,
                 Email=model.Email,
                 CellPhone=model.CellPhone,
@@ -74,8 +73,7 @@ namespace ClinicaVeterinariaWeb.Helpers
             {
                 Id=employee.Id,
                 ImageUrl = employee.ImageUrl,
-                Name=employee.Name,
-                LastName=employee.LastName,
+                FullName=employee.FullName,               
                 Address=employee.Address,
                 Email=employee.Email,
                 CellPhone=employee.CellPhone,
@@ -88,37 +86,6 @@ namespace ClinicaVeterinariaWeb.Helpers
         }
 
 
-        public Marcacao ToMarcacao(AddMarcacaoViewModel model, bool isNew)
-        {
-            return new Marcacao
-            {
-                Id= isNew ? 0 : model.ClienteId,
-                CellPhone = model.CellPhone,
-                Data=model.Data,
-                Hora=model.Hora,
-                Email=model.Email,
-                NomeAnimal=model.AnimalName,
-                User=model.User,
-                TipodaConsulta=model.TipodaConsulta                
-
-            };
-        }
-
-        public AddMarcacaoViewModel ToMarcacaoViewModel(Marcacao marcacao)
-        {
-            return new AddMarcacaoViewModel
-            {
-                ClienteId= marcacao.Id,
-                AnimalName= marcacao.NomeAnimal,
-                Data= marcacao.Data,
-                Hora=   marcacao.Hora,
-                CellPhone= marcacao.CellPhone,
-                TipodaConsulta= marcacao.TipodaConsulta,
-                User= marcacao.User,
-                Email= marcacao.Email,
-
-
-            };
-        }
+        
     }
 }

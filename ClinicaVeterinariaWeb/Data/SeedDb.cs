@@ -206,8 +206,7 @@ namespace ClinicaVeterinariaWeb.Data
         {
             _context.Employees.Add(new Employee
             {
-                Name = name,
-                LastName = lastName,
+                FullName = name,                
                 Role = role,
                 Email = email,
                 Address = address,
@@ -224,7 +223,7 @@ namespace ClinicaVeterinariaWeb.Data
             _context.Clients.Add(new Client
             {
                 Document = _random.Next(10000).ToString("D9"),
-                ClientName = name,
+                FullName = name,
                 Address= address,
                 Email= email,
                 Species= especie,

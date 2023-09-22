@@ -1,0 +1,29 @@
+{
+  "name": "colorbox",
+  "version": "0.5.2",
+  "description": "A toolbox for zeroing in on types of color in an image",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dkordik/colorbox"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/dkordik/colorbox/issues"
+  },
+  "homepage": "https://github.com/dkordik/colorbox",
+  "dependencies": {
+    "jimp": "^0.16.1",
+    "quantize": "^1.0.2"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.27.9",
+    "gulp": "^4.0.2",
+    "gutil": "~1.6.4"
+  }
+}

@@ -42,12 +42,7 @@ namespace ClinicaVeterinariaWeb.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
-
-        public User User { get; set; }
-
-        //[Required]
-        //[DataType(DataType.EmailAddress)]
-        //public string Username { get; set; }
+              
 
         public double Quantity { get; set; }
     }

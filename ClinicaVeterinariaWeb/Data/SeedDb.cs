@@ -24,8 +24,7 @@ namespace ClinicaVeterinariaWeb.Data
             _random = new Random();
             _userHelper= userHelper;
         }
-
-
+         
 
         public async Task SeedAsync()
         {
@@ -36,7 +35,7 @@ namespace ClinicaVeterinariaWeb.Data
             await _userHelper.CheckRoleAsync("Employee");
 
             await _userHelper.CheckRoleAsync("Client");
-            //await _userHelper.CheckRoleAsync("Anonimo");
+           
 
             if (!_context.Countries.Any())
             {
@@ -69,10 +68,10 @@ namespace ClinicaVeterinariaWeb.Data
                     CityId = _context.Countries.FirstOrDefault().Cities.FirstOrDefault().Id,
                     City = _context.Countries.FirstOrDefault().Cities.FirstOrDefault()
                 };
-                
-                var result = await _userHelper.AddUserAsync(userAdmin,"123456");
 
-                if(result != IdentityResult.Success)
+                var result = await _userHelper.AddUserAsync(userAdmin, "123456");
+
+                if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
@@ -83,7 +82,7 @@ namespace ClinicaVeterinariaWeb.Data
             }
 
             var userEmployee = await _userHelper.GetUserByEmailAsync("rosamaria@yopmail.com");
-            if(userEmployee == null)
+            if (userEmployee == null)
             {
                 userEmployee= new User
                 {
@@ -96,7 +95,7 @@ namespace ClinicaVeterinariaWeb.Data
                     CityId = _context.Countries.FirstOrDefault().Cities.FirstOrDefault().Id,
                     City = _context.Countries.FirstOrDefault().Cities.FirstOrDefault()
                 };
-                var result = await _userHelper.AddUserAsync(userEmployee,"123456");
+                var result = await _userHelper.AddUserAsync(userEmployee, "123456");
 
                 if (result != IdentityResult.Success)
                 {
@@ -109,7 +108,7 @@ namespace ClinicaVeterinariaWeb.Data
             }
 
             var userClient = await _userHelper.GetUserByEmailAsync("carlosalberto@yopmail.com");
-            if(userClient == null)
+            if (userClient == null)
             {
                 userClient = new User
                 {
@@ -143,32 +142,32 @@ namespace ClinicaVeterinariaWeb.Data
                 await _userHelper.AddUserRoleAsync(userAdmin, "Admin");
             }
 
-            if(!isInRoleEmployee)
+            if (!isInRoleEmployee)
             {
                 await _userHelper.AddUserRoleAsync(userEmployee, "Employee");
             }
 
-            if(!isInRoleClient)
+            if (!isInRoleClient)
             {
                 await _userHelper.AddUserRoleAsync(userClient, "Client");
             }
 
             if (!_context.Clients.Any())
             {
-                AddClient("Carlos Alberto", "carlosalberto@yopmail.com", "Rua do trabalho Dificil 666","Chuchu","Cão","Poodle","8",userAdmin);
-                AddClient("Maria Silva","maria@yopmail.com","Av da Saudade 840","Fofinho","Papagaio","Ave","5",userAdmin);
-                AddClient("Antonio Cardoso","antoniocardoso@yopmail.com","Travessa da libertade 963","Zorba","Cão","Braco Alemão","6",userAdmin);
-                AddClient("Fátima Rodrigues","fatima@yopmail.com","Av. Quero Praia 600","Negão","Cão","Poodle","12",userAdmin);
+                AddClient("Ana Carla", "anacarla@yopmail.com", "Rua do trabalho Dificil 666", "Chuchu", "Cão", "Poodle", "8", userAdmin);
+                AddClient("Maria Silva", "maria@yopmail.com", "Av da Saudade 840", "Fofinho", "Papagaio", "Ave", "5", userAdmin);
+                AddClient("Antonio Cardoso", "antoniocardoso@yopmail.com", "Travessa da libertade 963", "Zorba", "Cão", "Braco Alemão", "6", userAdmin);
+                AddClient("Fátima Rodrigues", "fatima@yopmail.com", "Av. Quero Praia 600", "Negão", "Cão", "Poodle", "12", userAdmin);
 
                 await _context.SaveChangesAsync();
             }
 
 
-            if(! _context.Employees.Any())
+            if (!_context.Employees.Any())
             {
-                AddEmployees("Margarida", "Campos", "Médica", "margarida@gmail.com", "Rua do Riacho Fundo 80", "5",userAdmin);
-                AddEmployees("André", "Oliveira", "Médico", "andre@gmail.com", "Rua do Riacho Fundo 80", "1",userAdmin);
-                AddEmployees("Rosa", "Maria", "Recepcionista", "rosamaria@yopmail.com", "Rua do Riacho Fundo 80", "Recepção",userAdmin);
+                AddEmployees("Margarida", "Campos", "Médica", "margarida@gmail.com", "Rua do Riacho Fundo 80", "5", userAdmin);
+                AddEmployees("André", "Oliveira", "Médico", "andre@gmail.com", "Rua do Riacho Fundo 80", "1", userAdmin);
+                AddEmployees("Rosa", "Maria", "Recepcionista", "rosamaria@yopmail.com", "Rua do Riacho Fundo 80", "Recepção", userAdmin);
 
                 await _context.SaveChangesAsync();
             }
@@ -176,9 +175,9 @@ namespace ClinicaVeterinariaWeb.Data
 
             if (!_context.Consulta.Any())
             {
-                AddConsulta("Carlos Alberto", "Chuchu", DateTime.Parse("15-07-2023"), TimeSpan.Parse("10:00"), "Margarida", "Rotina","cão recem operado",userEmployee);
-                AddConsulta("Maria Silva", "Fofinho", DateTime.Parse("28-07-2023"), TimeSpan.Parse("15:00"), "André", "Vacina","papagaio teve a asa partida", userEmployee);
-                AddConsulta("Maria Silva", "Zorba", DateTime.Parse("31-07-2023"), TimeSpan.Parse("9:30"), "Margarida", "Rotina","avaliação",userEmployee);
+                AddConsulta("Carlos Alberto", "Chuchu", DateTime.Parse("15-07-2023"), TimeSpan.Parse("10:00"), "Margarida", "Rotina", "cão recem operado", userEmployee);
+                AddConsulta("Maria Silva", "Fofinho", DateTime.Parse("28-07-2023"), TimeSpan.Parse("15:00"), "André", "Vacina", "papagaio teve a asa partida", userEmployee);
+                AddConsulta("Maria Silva", "Zorba", DateTime.Parse("31-07-2023"), TimeSpan.Parse("9:30"), "Margarida", "Rotina", "avaliação", userEmployee);
 
                 await _context.SaveChangesAsync();
             }
@@ -186,7 +185,7 @@ namespace ClinicaVeterinariaWeb.Data
 
         }
 
-        private void AddConsulta(string nameClient, string animalName, DateTime data, TimeSpan hora, string medico, string tipo,string note, User user)
+        private void AddConsulta(string nameClient, string animalName, DateTime data, TimeSpan hora, string medico, string tipo, string note, User user)
         {
             _context.Consulta.Add(new Consulta
             {
@@ -206,7 +205,7 @@ namespace ClinicaVeterinariaWeb.Data
         {
             _context.Employees.Add(new Employee
             {
-                FullName = name,                
+                FullName = name,
                 Role = role,
                 Email = email,
                 Address = address,
@@ -235,8 +234,5 @@ namespace ClinicaVeterinariaWeb.Data
                 User = user
             });
         }
-
-
-
     }
 }

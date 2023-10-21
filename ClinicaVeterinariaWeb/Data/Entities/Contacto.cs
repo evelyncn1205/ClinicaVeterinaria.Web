@@ -17,6 +17,9 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         [Required]
         public string Mensagem { get; set; }
 
+        public string Subject { get; set; }
+
+        public Client Cliente { get; set; }
 
     }
 }

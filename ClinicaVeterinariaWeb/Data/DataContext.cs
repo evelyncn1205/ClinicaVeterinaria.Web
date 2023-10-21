@@ -18,26 +18,22 @@ namespace ClinicaVeterinariaWeb.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<ClinicaVeterinariaWeb.Data.Entities.Consulta> Consulta { get; set; }
+        
         public DataContext(DbContextOptions<DataContext>options) : base (options)
         {
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Country>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
 
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    var cascadeFKS = modelBuilder.Model
-        //        .GetEntityTypes()
-        //        .SelectMany(m => m.GetForeignKeys())
-        //        .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
-        //    foreach(var fk in cascadeFKS)
-        //    {
-        //        fk.DeleteBehavior = DeleteBehavior.Restrict;
-        //    }
+            base.OnModelCreating(modelBuilder);
+        }
 
-        //    base.OnModelCreating(modelBuilder);
 
-        //}
     }
 }

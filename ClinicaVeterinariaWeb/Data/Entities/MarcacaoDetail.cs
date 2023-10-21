@@ -10,7 +10,7 @@ namespace ClinicaVeterinariaWeb.Data.Entities
 
         
         [Required]
-        public Client Client { get; set; }
+        public Client Cliente { get; set; }
 
         [Required]
         [Display(Name = "Nome do Animal")]

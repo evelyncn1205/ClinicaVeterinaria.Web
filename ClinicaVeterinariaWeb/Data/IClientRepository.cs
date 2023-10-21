@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ClinicaVeterinariaWeb.Data
 {
@@ -12,7 +13,8 @@ namespace ClinicaVeterinariaWeb.Data
 
         IEnumerable<SelectListItem> GetComboClients();
 
-                
+        IEnumerable<SelectListItem> GetComboClienteEmail();
+        public Task<IQueryable<Client>> GetClienteAsync(string userName);
         string GetAnimalName();
         string GetCellPhone();
         string GetEmail();

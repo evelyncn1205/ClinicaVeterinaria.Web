@@ -23,7 +23,7 @@ namespace ClinicaVeterinariaWeb.Models
         public string AnimalName { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Data { get; set; }
 
         [Required]

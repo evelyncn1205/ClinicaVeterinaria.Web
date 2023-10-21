@@ -4,8 +4,17 @@
     ViewData["Title"] = "ChangeUser";
 }
 
-<h2>ChangeUser</h2>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
+<h2>Alterar dados</h2>
+ <body>
 <div class="row">
     <div class="col-md-4 offset-md-4">
         <form method="post">
@@ -50,12 +59,14 @@
             <div class="form-group">
                 <input type="submit" value="Atualizar" class="btn btn-primary" />
                 <a asp-action="ChangePassword" class="btn btn-success">Alterar Password</a>
+                
             </div>
 
             <div class="text-success">@ViewBag.UserMessage</div>
         </form>
     </div>
 </div>
+
 
 @section Scripts {
     @{
@@ -87,5 +98,17 @@
                 return false;
             })
         });
-    </script>
+
+            
+      </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/scripts.js"></script>
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     }
+   
+
+</body>
+    
+
+

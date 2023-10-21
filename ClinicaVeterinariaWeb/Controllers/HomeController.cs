@@ -13,6 +13,8 @@ using System.Net;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using ClinicaVeterinariaWeb.Helpers;
+using Vereyon.Web;
 
 namespace ClinicaVeterinariaWeb.Controllers
 {
@@ -20,12 +22,20 @@ namespace ClinicaVeterinariaWeb.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DataContext _context;
-        
+        private readonly IClientRepository _clientRepository;
+        private readonly IMailHelper _mailHelper;
+        private readonly IFlashMessage _flashMessage;
 
-        public HomeController(ILogger<HomeController> logger, DataContext context)
+        public HomeController(ILogger<HomeController> logger, DataContext context,
+            IClientRepository clientRepository,
+           IMailHelper  mailHelper,
+           IFlashMessage flashMessage)
         {
             _logger = logger;
             _context = context; 
+            _clientRepository= clientRepository;
+            _mailHelper= mailHelper;
+            _flashMessage= flashMessage;
         }
 
         public IActionResult Index()
@@ -41,93 +51,68 @@ namespace ClinicaVeterinariaWeb.Controllers
         public IActionResult Servicos()
         {
             return View();
+        }         
+       
+        [Authorize(Roles = "Employee, Admin")]
+        public IActionResult Comunicacao()
+        {
+            var model = new ContatosViewModel
+            {
+                Clientes= _clientRepository.GetComboClienteEmail()
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Contactos(string nome, string email, string mensagem)
+        public  IActionResult Comunicacao(ContatosViewModel model )
         {
-            if (ModelState.IsValid)
+            Response response = _mailHelper.SendEmail(model.Email, model.Subject, model.Mensagem);
+            _context.Contactos.Add(model);
+            _context.SaveChangesAsync();
+
+            if (response.IsSuccess)
             {
-                var contacto = new Contacto
+
+                _flashMessage.Confirmation("Email enviado com sucesso !!");
+                model = new ContatosViewModel
                 {
-                    Name = nome,
-                    Email = email,
-                    Mensagem = mensagem
+                    Clientes = _clientRepository.GetComboClienteEmail(),
+
                 };
-                _context.Contactos.Add(contacto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Servicos));
+                return View(model);
+
             }
 
-            return RedirectToAction();
+            model = new ContatosViewModel
+            {
+                Clientes = _clientRepository.GetComboClienteEmail(),
+            };
+            return View(model);
+                        
         }
 
-
-        [Authorize(Roles = "Employee, Admin")]
-        public IActionResult Comunicacao()
+        public IActionResult Contactos()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Comunicacao(string nome, string email, string mensagem )
+        public  IActionResult Contactos(ContatosViewModel model)
         {
-            if (ModelState.IsValid)
+            Response response = _mailHelper.SendEmail("rosamaria@yopmail.com",model.Subject,model.Mensagem);
+            _context.Contactos.Add(model);
+            _context.SaveChangesAsync();
+            if (response.IsSuccess)
             {
-                 
-                var comunicacao = new Comunicacao
-                {
-                    Name = nome,
-                    Email = email,
-                    Mensagem = mensagem
-                };
-                
-                _context.Comunicacoes.Add(comunicacao);
-                await _context.SaveChangesAsync();
 
-                
-                string smtpServer = "smtp.gmail.com";
-                int smtpPort = 587;
-                string smtpUsername = "evelyncnweb@gmail.com";
-                string smtpPassword = "lhloytvbowvqpxxy";
+                _flashMessage.Confirmation("Email enviado com sucesso !!!");
+                return RedirectToAction("Index");
 
-                
-                SmtpClient smtpClient = new SmtpClient(smtpServer)
-                {
-                    Port = smtpPort,
-                    Credentials = new NetworkCredential(smtpUsername, smtpPassword),
-                    EnableSsl = true 
-                };
-
-                
-                MailMessage mailMessage = new MailMessage
-                {
-                    From = new MailAddress(smtpUsername), 
-                    Subject = "Clinica Veterinária Animals Planet", 
-                    Body = mensagem, 
-                    IsBodyHtml = true 
-                };
-
-                mailMessage.To.Add(email); 
-
-                
-                try
-                {
-                    smtpClient.Send(mailMessage);
-                }
-                catch (Exception ex)
-                {
-                    
-                    return RedirectToAction("ErroAoEnviarEmail");
-                }
-
-                return RedirectToAction(nameof(Servicos));
             }
 
-            return RedirectToAction();
+            return RedirectToAction("Index");
         }
 
-        
 
     }
 }

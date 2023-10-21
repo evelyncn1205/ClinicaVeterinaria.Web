@@ -22,6 +22,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\image\client\" />
     <Folder Include="wwwroot\image\employee\" />
+    <Folder Include="wwwroot\plugins\" />
   </ItemGroup>
 
 </Project>

@@ -3,10 +3,37 @@
     ViewData["Title"] = "ConfirmEmail";
 }
 
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
 <h2>@ViewData["Title"]</h2>
 <div>
     <p>
-        Obrigado por confirmar seu e-mail. Agora você pode fazer login no sistema.
+        Obrigado por confirmar seu e-mail. Agora você pode já fazer login no sistema.
+    </p>
+    <p>
+        Lembramos que para fazer marcação de uma consulta é necessário completar o regito na aba clientes.
+    </p>
+    <p>
+        Equipa Animals Friends.
     </p>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/scripts.js"></script>
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    }
+
+ 
 

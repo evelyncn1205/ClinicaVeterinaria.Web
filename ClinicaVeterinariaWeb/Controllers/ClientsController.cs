@@ -34,10 +34,11 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Clients
-        [Authorize(Roles = "Employee, Admin")]
-        public IActionResult Index()
+       
+        public async Task<IActionResult> Index()
         {
-            return View(_clientRepository.GetAll().OrderBy(e => e.FullName));
+            var model = await _clientRepository.GetClienteAsync(this.User.Identity.Name);
+            return View(model);
         }
 
         // GET: Clients/Details/5
@@ -58,7 +59,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         // GET: Clients/Create
-        //[Authorize(Roles = "Employee")]
+        
         public IActionResult Create()
         {
             return View();

@@ -1,44 +1,52 @@
-﻿
+﻿@model ClinicaVeterinariaWeb.Models.ContatosViewModel
 @{
     ViewData["Title"] = "Comunicacao";
 }
 
-<h2>Comunicação com Cliente</h2>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="Description"
-          content="clinica veterinária" />
-    <meta name="Keywords"
-          content="clinica veteriária" />
-    <title>Clínica veterinária Animals Friends |Servicos</title>
-    <link rel="stylesheet" href="css/styles.css" />
-</head>
+<flash dismissable="true" />
+ <h2>Comunicação com Cliente</h2>
+
+
 <body>
     <div>
         <aside id="sidebar">
             <div class="dark">
                 
-                <form class="contacto" method="post" action="/Home/Comunicacao">
-                    <div>
-                        <label>Nome</label><br />
-                        <input type="text"  name="Nome" placeholder="Nome" />
-                    </div>
+                <form class="contacto" asp-action="Comunicacao" method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input asp-for="Subject" class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Assunto'" placeholder="Assunto">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <textarea asp-for="Mensagem" class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Escreva a  Mensagem'" placeholder="Mensagem "></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="control-label" style="font-size:x-large; color:white">Email Customers</label>
+                                <select asp-for="Email" asp-items="Model.Clientes" class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Selecione o email'" placeholder=" Email"></select>
 
-                    <div>
-                        <label>Email</label><br />
-                        <input type="email" name="Email" placeholder="Endereço de email" />
+                            </div>
+                        </div>
                     </div>
-
+                    <br />
                     <div>
-                        <label>Mensagem</label><br />
-                        <textarea name="Mensagem" class="form-control-file " placeholder="Mensagem"></textarea>
+                        <button type="submit" class="send-btn">Enviar Email</button>
                     </div>
-                    <br/>
-                    <button class="button_1" type="submit">Enviar Email</button>
                 </form>
             </div>
         </aside>
@@ -86,6 +94,11 @@
 
 
     </div>
+
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="~/js/scripts.js"></script>
+      <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+      <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 
 </html>

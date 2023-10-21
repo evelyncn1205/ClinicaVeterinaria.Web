@@ -62,30 +62,17 @@ namespace ClinicaVeterinariaWeb.Controllers
             return View(model);
         }
 
-        public IActionResult AddMarcacao()
+        public async Task<IActionResult> AddMarcacao(User user)
         {
-            double hora = 0.0;
-
-            var model = new AddMarcacaoViewModel
-            {
-                    Quantity = 1,
-                    Cliente = _clientRepository.GetComboClients(),
-                    AnimalName = _clientRepository.GetAnimalName(),
-                    CellPhone = _clientRepository.GetCellPhone(),
-                    Email = _clientRepository.GetEmail(),
-                    Data = _marcacaoRepository.GetData(),
-                    Hora = _marcacaoRepository.GetHora(hora),
-                    TipodaConsulta= _marcacaoRepository.GetTipoConsulta(),
-            };
-                
-
+            user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var model = await _marcacaoRepository.ReturnMarcacaoViewModel(this.User.Identity.Name);
             return View(model);   
         }
 
         [HttpPost]
         public async Task<IActionResult> AddMarcacao(AddMarcacaoViewModel model)
         {
-
+            
             if(ModelState.IsValid)
             {
                 await _marcacaoRepository.AddItemMarcacaoAsync(model, this.User.Identity.Name);                      
@@ -210,11 +197,20 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         
-        public async Task<IActionResult> ConfirmMarcacao(AddMarcacaoViewModel model, int id)
+        public async Task<IActionResult> ConfirmMarcacao()
         {
             var response = await _marcacaoRepository.ConfirmMarcacaoAsync(this.User.Identity.Name);
-            if (response)
+
+            if (response != null)
             {
+                _mailHelper.SendEmail(response.Cliente.Email,
+                 "Reserve Confirmed", $"<h1>Clinica Animals Friends</h1>" +
+             $"Prezado {response.Cliente.FullName}, " +
+                   $"Segue os detalhes da vossa marcação</br></br>" +
+                   $"Animal:  {response.Cliente.AnimalName}</br>" +
+                   $"Data:  {response.Data}</br>" +
+                   $"Hora: {response.Hora}</br>" +
+                   $"Para cancelamento ou marcação de nova consulta acesse o nosso site ou entre em contacto.</br>");
                 return RedirectToAction("Index");   
               
             }
@@ -237,7 +233,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>Cancelar(CancelarViewModel model, string nome, int id, string email)
+        public async Task<IActionResult>Cancelar(CancelarViewModel model, int id)
         {
             if(ModelState.IsValid)
             {
@@ -271,57 +267,62 @@ namespace ClinicaVeterinariaWeb.Controllers
         public async Task<IActionResult> EnviarEmailDeCancelamento(CancelarViewModel model, int id)
         {
             var marcacao = await _marcacaoRepository.GetMarcacaoAsync(model.Id);
-            var cancelarMarcacao = new Marcacao
-            {
-                Cliente = marcacao.Cliente,
-                Email = marcacao.Email,
-                CellPhone = marcacao.CellPhone,
-                Data=marcacao.Data,
-                Hora=marcacao.Hora,
-                NomeAnimal=marcacao.NomeAnimal,
-                TipodaConsulta=marcacao.TipodaConsulta,
-            };
-
-            _context.Marcacoes.Add(cancelarMarcacao);
             
-            string smtpServer = "smtp.gmail.com";
-            int smtpPort = 587;
-            string smtpUsername = "evelyncnweb@gmail.com";
-            string smtpPassword = "lhloytvbowvqpxxy";
-
-
-            SmtpClient smtpClient = new SmtpClient(smtpServer)
+            if (marcacao != null)
             {
-                Port = smtpPort,
-                Credentials = new NetworkCredential(smtpUsername, smtpPassword),
-                EnableSsl = true
-            };
+                // Marque a marcação como cancelada (você deve ter uma propriedade para isso na classe Marcacao)
+                marcacao.StatusConsulta = StatusConsulta.Cancelada;
 
+                // Atualize a marcação no contexto do EF
+                _context.Marcacoes.Update(marcacao);
 
-            MailMessage mailMessage = new MailMessage
-            {
-                From = new MailAddress(smtpUsername),
-                Subject = "Clinica Veterinária Animals Planet",
-                Body = $"<p>Prezado cliente a consulta do(a) {marcacao.NomeAnimal} marcada para o dia {marcacao.Data} às {marcacao.Hora} foi cancelada.</p> "+
-                "<p>Se pretende marcar uma nova consulta acesse o nosso site ou entre em contacto.</p>"+
-                "<p>Clinica Veterinária Animals Friends.<p>",
-                IsBodyHtml = true
-            };
+                // Envie o email de cancelamento aqui
 
-            mailMessage.To.Add(marcacao.Email);
+                string smtpServer = "smtp.gmail.com";
+                int smtpPort = 587;
+                string smtpUsername = "evelyncnweb@gmail.com";
+                string smtpPassword = "lhloytvbowvqpxxy";
 
-            try
-            {
-                await _context.SaveChangesAsync();
-                smtpClient.Send(mailMessage);
-                return RedirectToAction("Index");
+                SmtpClient smtpClient = new SmtpClient(smtpServer)
+                {
+                    Port = smtpPort,
+                    Credentials = new NetworkCredential(smtpUsername, smtpPassword),
+                    EnableSsl = true
+                };
+
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress(smtpUsername),
+                    Subject = "Clinica Veterinária Animals Planet",
+                    Body = $"<p>Prezado cliente a consulta do(a) {marcacao.NomeAnimal} marcada para o dia {marcacao.Data} às {marcacao.Hora} foi cancelada.</p> "+
+                    "<p>Se pretende marcar uma nova consulta acesse o nosso site ou entre em contacto.</p>"+
+                    "<p>Clinica Veterinária Animals Friends.<p>",
+                    IsBodyHtml = true
+                };
+
+                mailMessage.To.Add(marcacao.Email);
+
+                try
+                {
+                    // Atualize a marcação no banco de dados
+                    await _context.SaveChangesAsync();
+
+                    // Envie o email
+                    smtpClient.Send(mailMessage);
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    // Lidere com erros de envio de email aqui
+                    return RedirectToAction("ErroAoEnviarEmail");
+                }
             }
-            catch (Exception ex)
+            else
             {
-
-                return RedirectToAction("ErroAoEnviarEmail");
+                // Marcação não encontrada, faça o tratamento apropriado
+                return RedirectToAction("MarcaçãoNaoEncontrada");
             }
-
         }
     }
 }

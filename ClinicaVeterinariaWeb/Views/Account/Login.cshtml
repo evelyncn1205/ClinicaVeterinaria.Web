@@ -1,17 +1,30 @@
 ﻿@model ClinicaVeterinariaWeb.Models.LoginViewModel
 @{
     ViewData["Title"] = "Login";
+    Layout = "_Layout";
 }
 
-<h2>Login</h2>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
+   
+
+<h2>Login</h2>
 <div class="row">
     <div class="col-md-4 offset-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
                 <label asp-for="UserName">Username</label>
-                <input asp-for="UserName" class="form-control" />
+                <input asp-for="UserName" class="form-control"/>
                 <span asp-validation-for="UserName" class="text-warning"></span>
             </div>
             <div class="form-group">
@@ -36,8 +49,34 @@
     </div>
 </div>
 
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/jQuery/jquery.min.js"></script>
+    <!-- Bootstrap jQuery -->
+    <script src="~/lib/bootstrap-4.5.3/bootstrap.min.js" defer></script>
+    <!-- Slick Carousel -->
+    <script src="~/lib/slick/slick.min.js"></script>
+    <script src="~/lib/slick/slick-animation.min.js"></script>
+    <!-- Color box -->
+    <script src="~/lib/colorbox/jquery.colorbox.js"></script>
+    <!-- shuffle -->
+    <script src="~/lib/shuffle/shuffle.min.js" defer></script>
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     }
+
+

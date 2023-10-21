@@ -2,97 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ClinicaVeterinariaWeb</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css>
-    <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="~/image/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Clinica Veterin&aacute;ria Animals Friends</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="~/image/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/css/styles.css" rel="stylesheet" />
+  
 </head>
-<body>
+<body id="page-top">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ClinicaVeterinariaWeb</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <br />
+        <br />
+        <br />
+        <br />
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#page-top"><img src="~/image/logovet2.png" alt="..." /></a>
+                <span class="navbar-brand">
+                    <p>Clinica Veterin&aacute;ria</p>
+                    <p>Animals Friends</p>
+                </span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Sobre">Sobre Nós</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Servicos">Serviços</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Comunicacao">Comunicação</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Consultas" asp-action="Index">Consultas</a>
-                        </li>
-                        
-                        @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
-                        {
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-muted ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="" style="color: black">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#encontre" style="color:black">Contacte-nos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#services" style="color:black">Servi&ccedil;os</a></li>                       
+                        <li class="nav-item"><a class="nav-link" href="#about" style="color:black">Sobre</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#team" style="color:black">Equipa</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact" style="color:black">Contacto</a></li>
+
+                        @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin") ||this.User.IsInRole("Employee"))
+                        {                                                       
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:black">Gestão</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Clients" asp-action="">Cliente</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Employees" asp-action="">Funcionário</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="" asp-action="">Anônimo</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Countries" asp-action="Index">Countries and Cities</a></li>
+                                    
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Consultas" asp-action="Index">Consultas</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Comunicacao">Comunicação</a></li>                                   
+
                                 </ul>
                             </li>
                         }
-                        
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
                         @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
                         {
-                            
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Registar</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:black">Admin</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Employees" asp-action="">Funcionários</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Countries" asp-action="Index">Countries and Cities</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Register">Registar novo utilizador</a></li>
+                            </ul>
                             </li>
                         }
-                        <li>
+                       
                         @if (this.User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Marcacao" asp-action="Index">Marcação</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Changeuser">@this.User.Identity.Name</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Clients" asp-action="" style="color:black">Clientes</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Marcacao" asp-action="Index" style="color:black">Marcação</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Changeuser" style="color:black">@this.User.Identity.Name</a></li>
+                            <li class="nav-item"><a class="btn btn-primary btn-l " asp-controller="Account" asp-action="Logout">Logout</a></li>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
+                            <li class="nav-item"><a class="btn btn-primary btn-l " asp-controller="Account" asp-action="Login">Login</a></li>
                         }
-                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            @await RenderSectionAsync("Scripts", required: false)
         </main>
     </div>
 
@@ -116,6 +111,13 @@
     <script src="~/lib/shuffle/shuffle.min.js" defer></script>
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>

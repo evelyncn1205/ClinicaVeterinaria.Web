@@ -184,6 +184,9 @@ namespace ClinicaVeterinariaWeb.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -196,7 +199,12 @@ namespace ClinicaVeterinariaWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Contactos");
                 });
@@ -214,6 +222,9 @@ namespace ClinicaVeterinariaWeb.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Countries");
                 });
@@ -282,15 +293,13 @@ namespace ClinicaVeterinariaWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Cliente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeSpan>("Hora")
@@ -315,6 +324,8 @@ namespace ClinicaVeterinariaWeb.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClienteId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Marcacoes");
@@ -331,7 +342,7 @@ namespace ClinicaVeterinariaWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int?>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
@@ -343,9 +354,6 @@ namespace ClinicaVeterinariaWeb.Migrations
 
                     b.Property<TimeSpan>("Hora")
                         .HasColumnType("time");
-
-                    b.Property<int?>("MarcacaoDetailTempId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("MarcacaoId")
                         .HasColumnType("int");
@@ -363,9 +371,7 @@ namespace ClinicaVeterinariaWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("MarcacaoDetailTempId");
+                    b.HasIndex("ClienteId");
 
                     b.HasIndex("MarcacaoId");
 
@@ -660,6 +666,15 @@ namespace ClinicaVeterinariaWeb.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ClinicaVeterinariaWeb.Data.Entities.Contacto", b =>
+                {
+                    b.HasOne("ClinicaVeterinariaWeb.Data.Entities.Client", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId");
+
+                    b.Navigation("Cliente");
+                });
+
             modelBuilder.Entity("ClinicaVeterinariaWeb.Data.Entities.Employee", b =>
                 {
                     b.HasOne("ClinicaVeterinariaWeb.Data.Entities.User", "User")
@@ -671,28 +686,30 @@ namespace ClinicaVeterinariaWeb.Migrations
 
             modelBuilder.Entity("ClinicaVeterinariaWeb.Data.Entities.Marcacao", b =>
                 {
+                    b.HasOne("ClinicaVeterinariaWeb.Data.Entities.Client", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId");
+
                     b.HasOne("ClinicaVeterinariaWeb.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Cliente");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("ClinicaVeterinariaWeb.Data.Entities.MarcacaoDetail", b =>
                 {
-                    b.HasOne("ClinicaVeterinariaWeb.Data.Entities.Client", "Client")
+                    b.HasOne("ClinicaVeterinariaWeb.Data.Entities.Client", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ClientId");
-
-                    b.HasOne("ClinicaVeterinariaWeb.Data.Entities.MarcacaoDetailTemp", null)
-                        .WithMany("Marcacoes")
-                        .HasForeignKey("MarcacaoDetailTempId");
+                        .HasForeignKey("ClienteId");
 
                     b.HasOne("ClinicaVeterinariaWeb.Data.Entities.Marcacao", null)
                         .WithMany("Items")
                         .HasForeignKey("MarcacaoId");
 
-                    b.Navigation("Client");
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("ClinicaVeterinariaWeb.Data.Entities.MarcacaoDetailTemp", b =>
@@ -780,11 +797,6 @@ namespace ClinicaVeterinariaWeb.Migrations
             modelBuilder.Entity("ClinicaVeterinariaWeb.Data.Entities.Marcacao", b =>
                 {
                     b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("ClinicaVeterinariaWeb.Data.Entities.MarcacaoDetailTemp", b =>
-                {
-                    b.Navigation("Marcacoes");
                 });
 #pragma warning restore 612, 618
         }

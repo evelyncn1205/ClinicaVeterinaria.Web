@@ -26,6 +26,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         private readonly ICountryRepository _countryRepository;
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
+       
 
         public AccountController (IUserHelper userHelper, 
             RoleManager<IdentityRole> roleManager,            
@@ -83,13 +84,14 @@ namespace ClinicaVeterinariaWeb.Controllers
             {
                 Countries = _countryRepository.GetComboCountries(),
                 Cities = _countryRepository.GetComboCities(0)
+                
             };
 
             var roles = new RegisternewUserViewModel();
             roles.Roles = new List<SelectListItem>
             {
                   new SelectListItem { Text = "Employee", Value = "Employee" },
-                  new SelectListItem { Text = "Client", Value = "Cliente" },
+                  new SelectListItem { Text = "Client", Value = "Client" },
                   new SelectListItem { Text = "Admin", Value = "Admin" }
             };
 
@@ -99,6 +101,7 @@ namespace ClinicaVeterinariaWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisternewUserViewModel model)
         {
+            var user = await _userHelper.GetUserByEmailAsync(model.Username);
             if (ModelState.IsValid)
             {
                 var roles = new RegisternewUserViewModel();
@@ -108,9 +111,7 @@ namespace ClinicaVeterinariaWeb.Controllers
                   new SelectListItem { Text = "Cliente", Value = "Client" },
                   new SelectListItem { Text = "Admin", Value = "Admin" }
                 };
-
-
-                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                                
                 if (user == null)
                 {
                     var city = await _countryRepository.GetCityAsync(model.CityId);
@@ -135,6 +136,18 @@ namespace ClinicaVeterinariaWeb.Controllers
                         ModelState.AddModelError(string.Empty, "The user couldn't be created.");
                         return View(model);
                     }
+                    if (model.Role == "Admin")
+                    {
+                        await _userHelper.AddUserRoleAsync(user, "Admin");
+                    }
+                    if (model.Role == "Funcionario")
+                    {
+                        await _userHelper.AddUserRoleAsync(user, "Employee");
+                    }
+                    if (model.Role == "Cliente")
+                    {
+                        await _userHelper.AddUserRoleAsync(user, "Client");
+                    }
 
                     string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                     string tokenLink = Url.Action("ConfirmEmail", "Account", new
@@ -142,9 +155,9 @@ namespace ClinicaVeterinariaWeb.Controllers
                         userid = user.Id,
                         token = myToken
                     }, protocol: HttpContext.Request.Scheme);
-                    Response response = _mailHelper.SendEmail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                      $"To allow the user, " +
-                      $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                    Response response = _mailHelper.SendEmail(model.Username, "Email confirmation", $"<h1>Email de Confirmação</h1>" +
+                      $"Para ter acesso ao nosso site , " +
+                      $"por favor clique no link para confirmação do email:</br></br><a href = \"{tokenLink}\">Confirmar Email</a>");
                     if (response.IsSuccess)
                     {
                         ViewBag.Message = "The instructions to allow you user has been sent to email";
@@ -155,6 +168,18 @@ namespace ClinicaVeterinariaWeb.Controllers
 
                 }
 
+            }
+            if (model.Role == "Admin")
+            {
+                await _userHelper.AddUserRoleAsync(user, "Admin");
+            }
+            if (model.Role == "Employee")
+            {
+                await _userHelper.AddUserRoleAsync(user, "Employee");
+            }
+            if (model.Role == "Client")
+            {
+                await _userHelper.AddUserRoleAsync(user, "Client");
             }
 
             return View(model);

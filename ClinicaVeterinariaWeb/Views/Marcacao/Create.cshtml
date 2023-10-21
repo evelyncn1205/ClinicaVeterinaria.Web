@@ -3,92 +3,95 @@
     ViewData["Title"] = "Create";
 }
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
-<h2>Create</h2>
+<body>
+
+
+<h2>Criar</h2>
 <p>
 <a asp-action="AddMarcacao" class="btn btn-success">Adicionar Marcação</a>
 <a asp-action="ConfirmMarcacao" class="btn btn-primary" id="btnConfirm">Confirmar Marcação</a>
-
 </p>
-<div class="row">
-  <div class="col-md-12">  
-     <div class="panel panel-default">
-        <div class="panel-heading">
-             <h3 class="panel-title">Marcação</h3>
-        </div>
-        <div class="panel-body">
-            <table class="tabletable-hover table-responsive table-striped" id="MyTable">
-               <thead>
-                  <tr>
-                     <th>
-                            @Html.DisplayNameFor(model => model.User.FullName)
-                     </th>
-                     <th>
-                            @Html.DisplayNameFor(model => model.Client.FullName)
-                     </th>
-                     <th>
-                              @Html.DisplayNameFor(model => model.NomeAnimal)
-                     </th>
-                     <th>
-                              @Html.DisplayNameFor(model => model.CellPhone)
-                     </th>
-                     <th>
-                              @Html.DisplayNameFor(model => model.Email)
-                     </th>
-                     <th>
-                              @Html.DisplayNameFor(model => model.TipodaConsulta)
-                     </th>
-                     <th>
-                               @Html.DisplayNameFor(model => model.Data)
-                     </th>
-                     <th>
-                               @Html.DisplayNameFor(model => model.Hora)
-                     </th>
-                                
-                   </tr>
-               </thead>
-              <tbody>
-                @foreach(var item in Model)
-                {
-                   <tr>
-                       <td>
-                            @Html.DisplayFor(modelItem => item.User.FullName)
-                       </td>
-                       <td>
-                            @Html.DisplayFor(modelItem => item.Client.FullName)
-                       </td>
-                       <td>
-                             @Html.DisplayFor(modelItem => item.NomeAnimal)
-                       </td>
-                       <td>
-                             @Html.DisplayFor(modelItem => item.CellPhone)
-                       </td>
-                       <td>
-                             @Html.DisplayFor(modelItem => item.Email)
-                       </td>
-                       <td>
-                             @Html.DisplayFor(modelItem => item.TipodaConsulta)
-                       </td>
-                       <td>
-                              @Html.DisplayFor(modelItem => item.Data)
-                       </td>
-                       <td>
-                              @Html.DisplayFor(modelItem => item.Hora)
-                       </td> 
-           
-                       <td id="@item.Id">                            
-                            <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-warning"><i class="fa fa-plus"></i>Editar</a>
-                            <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">Delete</a>
-                       </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-        </div>
-     </div>
-   </div>
-</div>
+
+<table class="table">
+    <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.User.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Client.FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NomeAnimal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CellPhone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TipodaConsulta)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Hora)
+                </th>
+
+            </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NomeAnimal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CellPhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipodaConsulta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Data)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hora)
+                    </td>
+
+                    <td id="@item.Id">
+                        <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-warning"><i></i>Editar</a>
+                        <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">Delete</a>
+                    </td>
+                </tr>
+            }
+    </tbody>
+</table>
+
+
 
 <div id="confirmDialog" class="modal fade">
     <div class="modal-dialog modal-sm">
@@ -167,3 +170,10 @@
         });
     </script>
 }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/scripts.js"></script>
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+</body>
+</html>

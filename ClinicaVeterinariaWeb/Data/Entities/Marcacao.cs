@@ -9,11 +9,10 @@ namespace ClinicaVeterinariaWeb.Data.Entities
         public int Id { get; set; }
 
         [Required]
-        [Display(Name = "User Name ")]
         public User User { get; set; }
 
         [Required]
-        public string Cliente { get; set; }
+        public Client Cliente { get; set; }
 
         [Required]
         [Display(Name ="Nome do Animal")]

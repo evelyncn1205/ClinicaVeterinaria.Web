@@ -73,7 +73,7 @@ body {*/
 /* 403 Acesso não permitido 
 -------------------------------------------------- */
 
-font: normal 100%/1.15 "Merriweather", serif;
+/*font: normal 100%/1.15 "Merriweather", serif;
 background: #fff url("https://www.dropbox.com/s/0czxq7wr862we98/texture.jpg?raw=1") repeat 0 0;
 color: #fff;
 }
@@ -145,7 +145,7 @@ color: #fff;
     p:first-of-type {
         margin-top: 12em;
     }
-    /*termina o template original */
+*/    /*termina o template original */
 
     body {
         background: #fff;

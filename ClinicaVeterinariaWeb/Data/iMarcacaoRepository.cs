@@ -24,7 +24,7 @@ namespace ClinicaVeterinariaWeb.Data
 
         Task DeleteDetailTempAsync(int id);
 
-        Task<bool> ConfirmMarcacaoAsync(string userName);
+        Task<Marcacao> ConfirmMarcacaoAsync(string userName);
 
         Task<MarcacaoDetailTemp> GetMarcacaoDetailTempAsync(int id);
 
@@ -32,7 +32,8 @@ namespace ClinicaVeterinariaWeb.Data
 
         Task<bool> CancelarMarcacao(CancelarViewModel model);
 
+        Task<AddMarcacaoViewModel> ReturnMarcacaoViewModel(string userName);
 
-        
+
     }
 }

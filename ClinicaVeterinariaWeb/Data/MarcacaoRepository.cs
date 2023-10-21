@@ -15,10 +15,13 @@ namespace ClinicaVeterinariaWeb.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
-        public MarcacaoRepository(DataContext context, IUserHelper userHelper) : base(context)
+        private readonly IClientRepository _clientRepository;
+        public MarcacaoRepository(DataContext context, IUserHelper userHelper,
+            IClientRepository clientRepository) : base(context)
         {
             _context = context;
             _userHelper = userHelper;
+            _clientRepository=clientRepository;
         }
 
         public async Task AddItemMarcacaoAsync(AddMarcacaoViewModel model, string userName)
@@ -81,12 +84,12 @@ namespace ClinicaVeterinariaWeb.Data
             return true;
         }
 
-        public async Task<bool> ConfirmMarcacaoAsync(string userName)
+        public async Task<Marcacao> ConfirmMarcacaoAsync(string userName)
         {
             var user = await _userHelper.GetUserByEmailAsync(userName);
             if (user == null)
             {
-                return false;
+                return null;
             }
             var marcacaoTemp = await _context.MarcacaoDetailsTemp
                 .Include(m => m.Client)
@@ -94,12 +97,12 @@ namespace ClinicaVeterinariaWeb.Data
                 .ToListAsync();
            if(marcacaoTemp == null || marcacaoTemp.Count == 0)
            {
-                return false;
+                return null;
            }
 
            var details= marcacaoTemp.Select(m=> new MarcacaoDetail
            {
-              Client= m.Client,
+              Cliente= m.Client,
               NomeAnimal=m.NomeAnimal,
               Data=m.Data,
               Hora=m.Hora,
@@ -110,20 +113,22 @@ namespace ClinicaVeterinariaWeb.Data
 
            }).ToList();
 
-            foreach(MarcacaoDetail id in details.ToList())
+            var marcacao = new Marcacao();
+
+            foreach(MarcacaoDetail marcacaoDetail in details)
             {
-                var marcacao = new Marcacao
+                marcacao = new Marcacao
                 {
-                    Data = id.Data,
+                    Data = marcacaoDetail.Data,
                     User = user,
-                    Hora = id.Hora,
+                    Hora = marcacaoDetail.Hora,
                     Items = details,
-                    CellPhone= id.CellPhone,
-                    Cliente= id.Client.FullName,
-                    Email=id.Client.Email,
-                    NomeAnimal=id.NomeAnimal,
-                    TipodaConsulta=id.TipodaConsulta,
-                    Quantity= id.Quantity,
+                    CellPhone= marcacaoDetail.CellPhone,
+                    Cliente= marcacaoDetail.Cliente,
+                    Email=marcacaoDetail.Cliente.Email,
+                    NomeAnimal=marcacaoDetail.NomeAnimal,
+                    TipodaConsulta=marcacaoDetail.TipodaConsulta,
+                    Quantity= marcacaoDetail.Quantity,
                     StatusConsulta= StatusConsulta.Ativa
 
                 };
@@ -131,7 +136,8 @@ namespace ClinicaVeterinariaWeb.Data
             }
             _context.MarcacaoDetailsTemp.RemoveRange(marcacaoTemp);
             await _context.SaveChangesAsync();
-            return true;
+
+            return marcacao;
         }
 
         public async Task DeleteDetailTempAsync(int id)
@@ -190,13 +196,13 @@ namespace ClinicaVeterinariaWeb.Data
                 return _context.Marcacoes
                     .Include(a=>a.User)
                     .Include(m => m.Items)
-                    .ThenInclude(i => i.Client)
+                    .ThenInclude(i => i.Cliente)
                     .OrderByDescending(m => m.Data);
             }
 
             return _context.Marcacoes
                 .Include(m => m.Items)
-                .ThenInclude(i => i.Client)
+                .ThenInclude(i => i.Cliente)
                 .Where(m=>m.User == user)
                 .OrderByDescending(m =>m.Data);
         }
@@ -216,64 +222,35 @@ namespace ClinicaVeterinariaWeb.Data
             return string.Empty;
         }
 
-        
+        public async Task<AddMarcacaoViewModel> ReturnMarcacaoViewModel(string userName)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+            bool role = await _userHelper.IsUserRoleAsync(user, "Client");
+            if(role)
+            {
+               
+                var view = new AddMarcacaoViewModel
+                {
+                    Cliente = _clientRepository.GetComboClients(),
+                    AnimalName = _clientRepository.GetAnimalName(),
+                    CellPhone = _clientRepository.GetCellPhone(),
+                    Email = _clientRepository.GetEmail(),
 
-
+                };
+                return view;
+            }
+            var model = new AddMarcacaoViewModel
+            {
+                Cliente = _clientRepository.GetComboClients(),
+                AnimalName = _clientRepository.GetAnimalName(),
+                CellPhone = _clientRepository.GetCellPhone(),
+                Email = _clientRepository.GetEmail(),
+            };
+            return model;
+        }
     }
 }
 
 
 
-//var cancelarMaecacao = new Marcacao
-//{
-//    Cliente = marcacao.Cliente,
-//    Email = marcacao.Email,
-//    CellPhone = marcacao.CellPhone,
-//    Data=marcacao.Data,
-//    Hora=marcacao.Hora,
-//    NomeAnimal=marcacao.NomeAnimal,
-//    TipodaConsulta=marcacao.TipodaConsulta,
-//};
 
-//_context.Marcacoes.Add(cancelarMaecacao);
-////await _context.SaveChangesAsync();
-
-
-//string smtpServer = "smtp.gmail.com";
-//int smtpPort = 587;
-//string smtpUsername = "evelyncnweb@gmail.com";
-//string smtpPassword = "lhloytvbowvqpxxy";
-
-
-//SmtpClient smtpClient = new SmtpClient(smtpServer)
-//{
-//    Port = smtpPort,
-//    Credentials = new NetworkCredential(smtpUsername, smtpPassword),
-//    EnableSsl = true
-//};
-
-
-//MailMessage mailMessage = new MailMessage
-//{
-//    From = new MailAddress(smtpUsername),
-//    Subject = "Clinica Veterinária Animals Planet",
-//    Body = $"Prezado cliente a vossa consulta marcada para o dia {marcacao.Data} ás {marcacao.Hora} foi cancelada. "+
-//    "Se pretende uma nova marcação acesso o nosso site ou entre em contacto."+
-//    "Clinica Veterinária Animals Friends.",
-//    IsBodyHtml = true
-//};
-
-//mailMessage.To.Add(marcacao.Email);
-
-
-//try
-//{
-//    await _context.SaveChangesAsync(); // Salva as alterações no banco de dados antes de enviar o email
-//    smtpClient.Send(mailMessage);
-//    return RedirectToAction("Index");
-//}
-//catch (Exception ex)
-//{
-
-//    return RedirectToAction("ErroAoEnviarEmail");
-//}

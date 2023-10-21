@@ -3,12 +3,24 @@
 @{
     ViewData["Title"] = "Delete";
 }
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
-<h1>Delete</h1>
+<body>
 
-<h3>Are you sure you want to delete this?</h3>
+
+
+<h3>Tem certeza que deseja excluir esta consulta?</h3>
 <div>
-    <h4>Consulta</h4>
+    
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -64,6 +76,15 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Excluir" class="btn btn-danger" /> |
-        <a asp-action="Index">Voltar</a>
+        <a asp-action="Index" class="btn btn-success"><i class="fa fa-chevron-left"></i>Voltar</a>
     </form>
 </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/scripts.js"></script>
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+</body>
+</html>

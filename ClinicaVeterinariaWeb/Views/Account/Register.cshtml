@@ -2,6 +2,14 @@
 @{
     ViewData["Title"] = "Register";
 }
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
 <h2>Register</h2>
 
@@ -50,12 +58,11 @@
                 <select asp-for="CityId" asp-items="Model.Cities" class="form-control"></select>
                 <span asp-validation-for="CityId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Roles"></label>
-                @if (Model?.Roles != null)
-                {
-                    @Html.DropDownListFor(m => m.Roles, Model.Roles)
-                }
+           
+            <div class="form-group" style="display: flex; flex-direction: column;">
+                <label asp-for="Role" class="control-label"></label>
+                <select asp-for="Role" asp-items="Model.Roles" style="width: 100%;" class="form-control"></select>
+                <span asp-validation-for="Role" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -85,35 +92,38 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="~/lib/jQuery/jquery.min.js"></script>
     }
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#CountryId").change(function () {
-                $("#CityId").empty();
-                $.ajax({
-                    url: '@Url.Action("GetCitiesAsync","Account")',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: { countryId: $("#CountryId").val() },
-                    success: function (cities) {
-                        debugger;
-                        $("#CityId").append('<option value="0">(Selecione a cidade...)</option>');
-                        $.each(cities, function (i, city) {
-                            $("#CityId").append('<option value="'
-                                + city.id + '">'
-                                + city.name + '</option>');
-                        });
-                    },
-                    error: function (ex) {
-                        debugger;
-                        alert('Failed to retrieve cities.' + ex);
-                    }
-                });
-                return false;
-            })
-        });
-    </script>
-
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#CountryId").change(function () {
+                    $("#CityId").empty();
+                    $.ajax({
+                        url: '@Url.Action("GetCitiesAsync","Account")',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { countryId: $("#CountryId").val() },
+                        success: function (cities) {
+                            debugger;
+                            $("#CityId").append('<option value="0">(Select a city...)</option>');
+                            $.each(cities, function (i, city) {
+                                $("#CityId").append('<option value="'
+                                    + city.id + '">'
+                                    + city.name + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            debugger;
+                            alert('Failed to retrieve cities.' + ex);
+                        }
+                    });
+                    return false;
+                })
+            });
+        </script>
+          
     }
-
+ 
